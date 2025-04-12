@@ -10,11 +10,16 @@ import {
   ListItem,
   IconButton,
   Text,
+  useColorModeValue,
+  Container,
+  useDisclosure,
+  Collapse,
 } from "@chakra-ui/react";
-import { NAV_LINKS, AUTH_BUTTONS, COLORS } from "@/constants";
+import { NAV_LINKS, AUTH_BUTTONS, THEME_COLORS } from "@/constants";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const { isOpen, onToggle } = useDisclosure();
 
   const handleLogin = () => {
     setLoggedIn(true);
@@ -37,76 +42,102 @@ export default function Navbar() {
     }
   }, []);
 
-  const renderNavLink = ({ title, hasSearch, prefix }) => (
+  const renderNavLink = ({ title, hasSearch }) => (
     <ListItem 
       key={title}
-      className={`${hasSearch ? 'flex items-center gap-2' : ''}`}
-      _hover={{ color: COLORS.goldHover }}
+      display="flex"
+      alignItems="center"
+      gap={2}
       cursor="pointer"
+      transition="all 0.3s ease"
+      _hover={{ opacity: 0.6 }}
+      color={hasSearch ? THEME_COLORS.bronzeNude : "white"}  // Make GOE text bronzeNude
     >
-      {hasSearch && (
-        <IconButton
-          icon={<FaSearch size={14} />}
-          variant="ghost"
-          bg="gray.700"
-          _hover={{ bg: "gray.600" }}
-          rounded="full"
-          size="sm"
-        />
+      {hasSearch ? (
+        <>
+          <IconButton
+            icon={<FaSearch />}
+            variant="ghost"
+            bg="#242424"  // Slightly lighter than background
+            color={THEME_COLORS.bronzeNude}  // Make icon bronzeNude
+            _hover={{ bg: "#2a2a2a" }}
+            rounded="full"
+            size="sm"
+          />
+          <Text>{title}</Text>
+        </>
+      ) : (
+        <Text>
+          <Text as="span" color={THEME_COLORS.bronzeNude}>
+            {title.slice(0, 3)}
+          </Text>
+          <Text as="span" color="white">
+            {title.slice(3)}
+          </Text>
+        </Text>
       )}
-      {prefix && <Text as="span" color={COLORS.bronze}>{prefix}</Text>}
-      {title}
     </ListItem>
   );
 
   return (
-    <Box as="nav" bg={COLORS.background} color="white" px={6} py={4}>
-      <Flex align="center" width="full">
-        {/* Logo Section */}
-        <Box w="200px">
-          <Image src="/GOE_Icon.png" alt="GOE Icon" width={80} height={80} />
-        </Box>
+    <Box as="nav" bg={THEME_COLORS.background} color="white" boxShadow="md">
+      <Container maxW="container.xl">
+        <Flex align="center" py={4}>
+          <Box flexBasis="200px">
+            <Image src="/GOE_Icon.png" alt="GOE Icon" width={80} height={80} />
+          </Box>
 
-        {/* Navigation Links */}
-        <List className="hidden md:flex items-center justify-center gap-10 flex-1">
-          {NAV_LINKS.map(renderNavLink)}
-        </List>
+          <List
+            display={{ base: "none", md: "flex" }}
+            align="center"
+            justify="center"
+            gap={10}
+            flex={1}
+          >
+            {NAV_LINKS.map(renderNavLink)}
+          </List>
 
-        {/* Right Section */}
-        <Flex align="center" gap={4} w="200px" justify="flex-end">
-          <Flex align="center" gap={1} cursor="pointer">
-            <Image src="/globe.svg" alt="Language Icon" width={16} height={16} />
-            <Text>EN</Text>
-          </Flex>
-          {loggedIn ? (
-            <Button
-              bg="gold"
-              color="black"
-              _hover={{ opacity: 0.9 }}
-              size="md"
-              onClick={handleLogout}
+          <Flex align="center" gap={4} flexBasis="200px" justify="flex-end">
+            <Flex
+              align="center"
+              gap={1}
+              cursor="pointer"
             >
-              Logout
-            </Button>
-          ) : (
-            <>
-              {AUTH_BUTTONS.map(({ label, variant }) => (
-                <Button
-                  key={label}
-                  bg="gold"
-                  color="black"
-                  _hover={{ opacity: 0.9 }}
-                  size="md"
-                  variant={variant}
-                  onClick={label === 'Login' ? handleLogin : handleSignup}
-                >
-                  {label}
-                </Button>
-              ))}
-            </>
-          )}
+              <Image src="/globe.svg" alt="Language Icon" width={16} height={16} />
+              <Text fontSize="sm">EN</Text>
+            </Flex>
+            {loggedIn ? (
+              <Button
+                bg={THEME_COLORS.bronzeNude}
+                color="white"
+                onClick={handleLogout}
+                size="md"
+                _hover={{ transform: "translateY(-2px)", opacity: 0.9 }}
+                transition="all 0.3s ease"
+              >
+                Logout
+              </Button>
+            ) : (
+              <>
+                {AUTH_BUTTONS.map(({ label, variant}) => (
+                  <Button
+                    key={label}
+                    variant={variant}
+                    bg={THEME_COLORS.bronzeNude}
+                    color="white"
+                    onClick={label === 'Login' ? handleLogin : handleSignup}
+                    size="md"
+                    _hover={{ transform: "translateY(-2px)", opacity: 0.9 }}
+                    transition="all 0.3s ease"
+                  >
+                    {label}
+                  </Button>
+                ))}
+              </>
+            )}
+          </Flex>
         </Flex>
-      </Flex>
+      </Container>
     </Box>
   );
 }

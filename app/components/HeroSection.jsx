@@ -2,10 +2,17 @@
 import Image from 'next/image';
 import { Box, Container, Heading, Text, Button, Stack, HStack, Input, Icon } from '@chakra-ui/react';
 import { FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaLocationArrow } from 'react-icons/fa';
+import { THEME_COLORS } from '@/constants';
 
 export default function HeroSection() {
   return (
-    <Box position="relative" height="calc(100vh - 80px)" width="100%" overflow="hidden">
+    <Box 
+      position="relative" 
+      height="60vh"  // Changed from calc(100vh - 80px)
+      maxHeight="600px"  // Added max height
+      width="100%" 
+      overflow="hidden"
+    >
       <Image
         src="/heroPic.png"
         alt="Egypt Hero Image"
@@ -30,12 +37,12 @@ export default function HeroSection() {
       />
       <Container maxW="container.xl" h="full">
         <Stack
-          spacing={4}
+          spacing={3}
           position="relative"
-          top="50%"
-          transform="translateY(-50%)"
+          top="45%"
+          transform="translateY(-45%)"
           color="white"
-          maxW="6xl"
+          maxW="5xl"
         >
           <Box mb={2}>
             <HStack spacing={2} mb={2}>
@@ -54,33 +61,37 @@ export default function HeroSection() {
           </Text>
 
           <HStack 
-            spacing={6} 
-            p={8} 
-            bg="rgba(64, 64, 64, 0.4)"
-            backdropFilter="blur(8px)"
+            spacing={4} 
+            p={6} 
+            bg="rgba(32, 32, 32, 0.75)"
+            backdropFilter="blur(12px)"
             borderRadius="full"
+            borderTopRadius={7}
+            border={`1px solid ${THEME_COLORS.bronzeNude}`}
             color="white"
             width="100%"
-            boxShadow = "xl"
+            boxShadow="dark-lg"
           >
             <HStack flex={1}>
-              <Icon as={FaMapMarkerAlt} color="white" boxSize={5} />
+              <Icon as={FaMapMarkerAlt} color={THEME_COLORS.bronzeNude} boxSize={5} />
               <Input placeholder="Cairo, Egypt" variant="unstyled" color="white" _placeholder={{ color: 'gray.300' }} />
             </HStack>
             <HStack flex={1}>
-              <Icon as={FaCalendarAlt} color="white" boxSize={5} />
+              <Icon as={FaCalendarAlt} color={THEME_COLORS.bronzeNude} boxSize={5} />
               <Input placeholder="19 March 2025 - 27 Mar.." variant="unstyled" color="white" _placeholder={{ color: 'gray.300' }} />
             </HStack>
             <HStack flex={1}>
-              <Icon as={FaUsers} color="white" boxSize={5} />
+              <Icon as={FaUsers} color={THEME_COLORS.bronzeNude} boxSize={5} />
               <Input placeholder="2 Adults, 1 Child, 1 Infant" variant="unstyled" color="white" _placeholder={{ color: 'gray.300' }} />
             </HStack>
             <Button 
-              colorScheme="green" 
-              size="lg" 
-              px={12}
-              py={7}
-              borderRadius="full"
+              bg={THEME_COLORS.bronzeNude}
+              color="white"
+              size="md"
+              px={8}
+              py={6}
+              borderRadius= "full"
+              _hover={{ opacity: 0.9 }}
             >
               Explore Stays
             </Button>
