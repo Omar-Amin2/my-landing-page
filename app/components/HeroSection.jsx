@@ -1,15 +1,19 @@
 'use client'
+import { useState } from 'react';
 import Image from 'next/image';
 import { Box, Container, Heading, Text, Button, Stack, HStack, Input, Icon } from '@chakra-ui/react';
 import { FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaLocationArrow } from 'react-icons/fa';
 import { THEME_COLORS } from '@/constants';
+import { useAuth } from '../context/AuthContext';
 
 export default function HeroSection() {
+  const { loggedIn } = useAuth();
+
   return (
     <Box 
       position="relative" 
-      height="60vh"  // Changed from calc(100vh - 80px)
-      maxHeight="600px"  // Added max height
+      height="60vh"  
+      maxHeight="600px"  
       width="100%" 
       overflow="hidden"
     >
@@ -50,7 +54,7 @@ export default function HeroSection() {
               <Text fontSize="lg" fontWeight="bold">Egypt</Text>
             </HStack>
             <Heading as="h1" size="2xl" fontWeight="bold" mb={4}>
-              Hey!
+              {loggedIn ? 'Hey, Omar!' : 'Hey!'}
             </Heading>
             <Heading as="h2" size="2xl" fontWeight="bold">
               Tell us where you want to stay

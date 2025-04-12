@@ -1,7 +1,8 @@
 "use client"
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
+import { FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";  // Added FiUser
 import {
   Box,
   Flex,
@@ -10,15 +11,17 @@ import {
   ListItem,
   IconButton,
   Text,
+  Icon,
   useColorModeValue,
   Container,
   useDisclosure,
   Collapse,
 } from "@chakra-ui/react";
 import { NAV_LINKS, AUTH_BUTTONS, THEME_COLORS } from "@/constants";
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { loggedIn, setLoggedIn } = useAuth();
   const { isOpen, onToggle } = useDisclosure();
 
   const handleLogin = () => {
@@ -42,7 +45,7 @@ export default function Navbar() {
     }
   }, []);
 
-  const renderNavLink = ({ title, hasSearch }) => (
+  const renderNavLink = ({ title }) => (
     <ListItem 
       key={title}
       display="flex"
@@ -51,31 +54,16 @@ export default function Navbar() {
       cursor="pointer"
       transition="all 0.3s ease"
       _hover={{ opacity: 0.6 }}
-      color={hasSearch ? THEME_COLORS.bronzeNude : "white"}  // Make GOE text bronzeNude
+      color="white"
     >
-      {hasSearch ? (
-        <>
-          <IconButton
-            icon={<FaSearch />}
-            variant="ghost"
-            bg="#242424"  // Slightly lighter than background
-            color={THEME_COLORS.bronzeNude}  // Make icon bronzeNude
-            _hover={{ bg: "#2a2a2a" }}
-            rounded="full"
-            size="sm"
-          />
-          <Text>{title}</Text>
-        </>
-      ) : (
-        <Text>
-          <Text as="span" color={THEME_COLORS.bronzeNude}>
-            {title.slice(0, 3)}
-          </Text>
-          <Text as="span" color="white">
-            {title.slice(3)}
-          </Text>
+      <Text>
+        <Text as="span" color={THEME_COLORS.bronzeNude}>
+          {title.slice(0, 3)}
         </Text>
-      )}
+        <Text as="span" color="white">
+          {title.slice(3)}
+        </Text>
+      </Text>
     </ListItem>
   );
 
@@ -94,30 +82,61 @@ export default function Navbar() {
             gap={10}
             flex={1}
           >
+            <IconButton
+              icon={<FaSearch />}
+              variant="ghost"
+              bg="#242424"
+              color={THEME_COLORS.bronzeNude}
+              _hover={{ bg: "#2a2a2a" }}
+              rounded="full"
+              size="md"  // Changed from sm to md
+            />
             {NAV_LINKS.map(renderNavLink)}
           </List>
 
           <Flex align="center" gap={4} flexBasis="200px" justify="flex-end">
-            <Flex
-              align="center"
-              gap={1}
-              cursor="pointer"
-            >
-              <Image src="/globe.svg" alt="Language Icon" width={16} height={16} />
-              <Text fontSize="sm">EN</Text>
+            <Flex align="center" gap={3}>  
+              <Image src="/globe.svg" alt="Language Icon" width={24} height={24} />
+              <Text fontSize="lg" fontWeight="medium">EN</Text>
             </Flex>
-            {loggedIn ? (
-              <Button
-                bg={THEME_COLORS.bronzeNude}
-                color="white"
-                onClick={handleLogout}
-                size="md"
-                _hover={{ transform: "translateY(-2px)", opacity: 0.9 }}
-                transition="all 0.3s ease"
-              >
-                Logout
-              </Button>
-            ) : (
+            
+            {loggedIn && (
+              <Flex align="center" gap={5}> 
+                <Text 
+                  color="gray.500" 
+                  fontSize="xl" 
+                  mx={3}  
+                  opacity={0.7}
+                >
+                </Text>
+                <Icon
+                  as={FiHeart}
+                  boxSize={6}
+                  color={THEME_COLORS.bronzeNude}
+                  cursor="pointer"
+                  _hover={{ opacity: 0.8 }}
+                />
+                <Icon
+                  as={FiShoppingCart}
+                  boxSize={6}
+                  color={THEME_COLORS.bronzeNude}
+                  cursor="pointer"
+                  _hover={{ opacity: 0.8 }}
+                />
+                <IconButton
+                  icon={<FiUser size="1.5em" />}  // Explicitly set icon size
+                  variant="ghost"
+                  bg="#242424"
+                  color={THEME_COLORS.bronzeNude}
+                  _hover={{ bg: "#2a2a2a" }}
+                  rounded="full"
+                  size="md"  // Changed from sm to md
+                  onClick={handleLogout}
+                />
+              </Flex>
+            )}
+
+            {!loggedIn && (
               <>
                 {AUTH_BUTTONS.map(({ label, variant}) => (
                   <Button

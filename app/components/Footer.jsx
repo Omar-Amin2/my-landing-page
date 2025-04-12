@@ -26,8 +26,13 @@ export default function Footer() {
   };
 
   return (
-    <Box bg={THEME_COLORS.background} color="white" py={8}>
-      <Container maxW="container.xl">
+    <Box 
+      bg={THEME_COLORS.background} 
+      color="white" 
+      py={8}
+      position="relative"
+    >
+      <Container maxW="container.xl" position="relative">
         <Flex direction="column" gap={8}>
           {/* Top Section */}
           <Flex justify="space-between" align="flex-end">  {/* Changed align to flex-end */}

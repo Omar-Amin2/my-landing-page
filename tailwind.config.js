@@ -7,9 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        bronze: '#CD7F32', 
+      backgroundImage: {
+        'radial-gradient': 'radial-gradient(circle at center, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%)',
       },
+      colors: {
+        bronze: {
+          DEFAULT: '#C8B19B',
+          ...THEME_COLORS.bronzeNude
+        }
+      }
     },
   },
   plugins: [],
