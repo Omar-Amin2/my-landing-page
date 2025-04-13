@@ -11,16 +11,19 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <ChakraProvider theme={theme}>
-            <Box
-              position="relative"
-              minH="100vh"
-              bg={THEME_COLORS.background}
-              className="relative min-h-screen overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-radial-gradient from-bronze/30 to-transparent pointer-events-none z-0" />
-              <Box position="relative" zIndex={1}>
-                {children}
-              </Box>
+            <Box position="relative" minH="100vh" overflow="hidden">
+              {children}
+              <Box
+                position="absolute"
+                bottom={-10}
+                left={-10}
+                right={-10}
+                height="300px"
+                pointerEvents="none"
+                bgGradient={`linear(to-t, ${THEME_COLORS.bronzeNude}50, ${THEME_COLORS.bronzeNude}20, transparent)`}
+                zIndex={0}
+                transform="scale(1.1)"
+              />
             </Box>
           </ChakraProvider>
         </AuthProvider>

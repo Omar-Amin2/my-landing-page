@@ -15,7 +15,7 @@ export const THEME_COLORS = {
   gold: "yellow.400",
   bronze: "#CD7F32",
   bronzeNude: "#E6BE8A",
-  background: "#121212",  // Changed to a slightly lighter black
+  background: "#121212",
   hoverText: "whiteAlpha.800"
 };
 
