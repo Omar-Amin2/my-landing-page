@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Add proper prefix for prettier/stylelint compatibility */
+  /* prettier-ignore */
+  .gradient-overlay {
+    @apply absolute inset-0;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  }
+  
+  /* prettier-ignore */
+  .hover-lift {
+    @apply transform transition-all duration-300;
+    &:hover {
+      @apply -translate-y-2;
+    }
+  }
+}
