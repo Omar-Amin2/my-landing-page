@@ -1,20 +1,21 @@
 'use client'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Box, Container, Input, VStack, Text, Icon, Flex, IconButton } from '@chakra-ui/react'
 import { FaSearch, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
 import { THEME_COLORS } from '@/constants'
 
 const popularLocations = [
-  { name: 'Cairo', region: 'City in Egypt', keywords: ['pyramids', 'nile', 'capital'] },
-  { name: 'Alexandria', region: 'City in Egypt', keywords: ['beach', 'library', 'mediterranean'] },
-  { name: 'Hurghada', region: 'City in Egypt', keywords: ['beach', 'diving', 'red sea'] },
-  { name: 'Luxor', region: 'City in Egypt', keywords: ['temples', 'valley of kings', 'nile'] },
-  { name: 'Sharm El Sheikh', region: 'City in Egypt', keywords: ['beach', 'diving', 'red sea'] },
+  { id: 1, name: 'Cairo', region: 'City in Egypt' },
+  { id: 2, name: 'Alexandria', region: 'City in Egypt' },
+  { id: 3, name: 'Hurghada', region: 'City in Egypt' },
+  { id: 4, name: 'Luxor', region: 'City in Egypt' },
+  { id: 5, name: 'Sharm El Sheikh', region: 'City in Egypt' },
 ];
 
 export default function SearchOverlay({ isOpen, onClose }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [isFocused, setIsFocused] = useState(true)
+  const searchBoxRef = useRef(null)
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -24,14 +25,23 @@ export default function SearchOverlay({ isOpen, onClose }) {
     return () => window.removeEventListener('keydown', handleEsc)
   }, [onClose])
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+        onClose()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [onClose])
+
   const filteredLocations = useMemo(() => {
     if (!searchQuery.trim()) return popularLocations;
     
     const query = searchQuery.toLowerCase();
     return popularLocations.filter(location => 
-      location.name.toLowerCase().includes(query) ||
-      location.region.toLowerCase().includes(query) ||
-      location.keywords.some(keyword => keyword.toLowerCase().includes(query))
+      location.name.toLowerCase().startsWith(query)
     );
   }, [searchQuery]);
 
@@ -41,17 +51,19 @@ export default function SearchOverlay({ isOpen, onClose }) {
     <Box
       position="fixed"
       inset={0}
-      bg="blackAlpha.600"
+      bg="rgba(23, 23, 23, 0.95)"
       backdropFilter="blur(4px)"
       zIndex={1000}
-      onClick={onClose}
     >
       <Box 
         bg="transparent" 
-        onClick={e => e.stopPropagation()}
-        pt={20}
+        pt={{ base: 10, md: 20 }}
       >
-        <Container maxW="container.md" position="relative">
+        <Container 
+          maxW={{ base: "95%", md: "container.md" }} 
+          position="relative" 
+          ref={searchBoxRef}
+        >
           <IconButton
             icon={<FaTimes />}
             position="absolute"
@@ -64,7 +76,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
             _hover={{ bg: 'whiteAlpha.200' }}
             aria-label="Close search"
           />
-          <VStack spacing={8} align="stretch">
+          <VStack spacing={{ base: 4, md: 8 }} align="stretch">
             <Flex
               bg="white"
               p={4}
@@ -99,12 +111,11 @@ export default function SearchOverlay({ isOpen, onClose }) {
               <VStack align="stretch" spacing={6}>
                 {filteredLocations.map((location) => (
                   <Flex 
-                    key={location.name}
+                    key={location.id}
                     align="center"
                     cursor="pointer"
                     _hover={{ color: THEME_COLORS.bronzeNude }}
                     transition="all 0.2s"
-                    opacity={searchQuery && !location.name.toLowerCase().includes(searchQuery.toLowerCase()) ? 0.6 : 1}
                   >
                     <Icon as={FaMapMarkerAlt} mr={3} />
                     <Box>

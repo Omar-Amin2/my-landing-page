@@ -5,15 +5,24 @@ import { Box, Container, Heading, Text, Button, Stack, HStack, Input, Icon } fro
 import { FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaLocationArrow } from 'react-icons/fa';
 import { THEME_COLORS } from '@/constants';
 import { useAuth } from '../context/AuthContext';
+import LocationPicker from './LocationPicker';
+import DatePicker from './DatePicker';
+import GuestPicker from './GuestPicker';
 
 export default function HeroSection() {
   const { loggedIn } = useAuth();
+  const [activeInput, setActiveInput] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedDates, setSelectedDates] = useState('');
+  const [selectedGuests, setSelectedGuests] = useState('');
+
+  const handleClose = () => setActiveInput(null);
 
   return (
     <Box 
       position="relative" 
-      height="60vh"  
-      maxHeight="600px"  
+      height={{ base: "80vh", md: "60vh" }}
+      maxHeight={{ base: "800px", md: "600px" }}
       width="100%" 
       overflow="hidden"
     >
@@ -41,10 +50,11 @@ export default function HeroSection() {
       />
       <Container maxW="container.xl" h="full">
         <Stack
-          spacing={3}
+          spacing={{ base: 2, md: 3 }}
           position="relative"
-          top="45%"
+          top={{ base: "35%", md: "45%" }}
           transform="translateY(-45%)"
+          px={{ base: 4, md: 0 }}
           color="white"
           maxW="5xl"
         >
@@ -65,28 +75,65 @@ export default function HeroSection() {
           </Text>
 
           <HStack 
-            spacing={4} 
-            p={6} 
+            spacing={{ base: 2, md: 4 }} 
+            p={{ base: 4, md: 6 }}
+            flexDir={{ base: "column", md: "row" }}
+            alignItems="stretch"
             bg="rgba(32, 32, 32, 0.75)"
             backdropFilter="blur(12px)"
             borderRadius="full"
-            borderTopRadius={7}
             border={`1px solid ${THEME_COLORS.bronzeNude}`}
             color="white"
             width="100%"
             boxShadow="dark-lg"
           >
-            <HStack flex={1}>
+            <HStack 
+              flex={1} 
+              cursor="pointer" 
+              onClick={() => setActiveInput('location')}
+            >
               <Icon as={FaMapMarkerAlt} color={THEME_COLORS.bronzeNude} boxSize={5} />
-              <Input placeholder="Cairo, Egypt" variant="unstyled" color="white" _placeholder={{ color: 'gray.300' }} />
+              <Input 
+                placeholder="Where are you going?"
+                value={selectedLocation}
+                readOnly
+                cursor="pointer"
+                variant="unstyled" 
+                color="white" 
+                _placeholder={{ color: 'gray.300' }} 
+              />
             </HStack>
-            <HStack flex={1}>
+            <HStack 
+              flex={1}
+              cursor="pointer"
+              onClick={() => setActiveInput('dates')}
+            >
               <Icon as={FaCalendarAlt} color={THEME_COLORS.bronzeNude} boxSize={5} />
-              <Input placeholder="19 March 2025 - 27 Mar.." variant="unstyled" color="white" _placeholder={{ color: 'gray.300' }} />
+              <Input 
+                placeholder="Add dates" 
+                value={selectedDates}
+                readOnly
+                cursor="pointer"
+                variant="unstyled"
+                color="white"
+                _placeholder={{ color: 'gray.300' }}
+              />
             </HStack>
-            <HStack flex={1}>
+            <HStack 
+              flex={1} 
+              cursor="pointer"
+              onClick={() => setActiveInput('guests')}
+            >
               <Icon as={FaUsers} color={THEME_COLORS.bronzeNude} boxSize={5} />
-              <Input placeholder="2 Adults, 1 Child, 1 Infant" variant="unstyled" color="white" _placeholder={{ color: 'gray.300' }} />
+              <Input 
+                placeholder="Add guests"
+                value={selectedGuests}
+                readOnly
+                cursor="pointer"
+                variant="unstyled" 
+                color="white" 
+                _placeholder={{ color: 'gray.300' }} 
+              />
             </HStack>
             <Button 
               bg={THEME_COLORS.bronzeNude}
@@ -96,12 +143,37 @@ export default function HeroSection() {
               py={6}
               borderRadius= "full"
               _hover={{ opacity: 0.9 }}
+              isDisabled={!selectedLocation || !selectedDates || !selectedGuests}
             >
               Explore Stays
             </Button>
           </HStack>
         </Stack>
       </Container>
+
+      <LocationPicker 
+        isOpen={activeInput === 'location'}
+        onClose={handleClose}
+        onSelect={setSelectedLocation}
+        selectedDates={selectedDates}
+        selectedGuests={selectedGuests}
+      />
+
+      <DatePicker
+        isOpen={activeInput === 'dates'}
+        onClose={handleClose}
+        onSelect={setSelectedDates}
+        selectedLocation={selectedLocation}
+        selectedGuests={selectedGuests}
+      />
+
+      <GuestPicker
+        isOpen={activeInput === 'guests'}
+        onClose={handleClose}
+        onSelect={setSelectedGuests}
+        selectedLocation={selectedLocation}
+        selectedDates={selectedDates}
+      />
     </Box>
   );
 }

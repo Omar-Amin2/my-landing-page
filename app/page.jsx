@@ -12,7 +12,13 @@ import { Box } from '@chakra-ui/react';
 
 export default function Home() {
   return (
-    <Box as="main" minH="100vh" display="flex" flexDirection="column" gap={5}>
+    <Box 
+      as="main" 
+      minH="100vh" 
+      display="flex" 
+      flexDirection="column" 
+      gap={{ base: 3, md: 4, lg: 5 }}
+    >
       <Navbar />
       <HeroSection />
       <MostRelevantSection />

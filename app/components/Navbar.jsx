@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -76,18 +77,30 @@ export default function Navbar() {
 
   return (
     <>
-      <Box as="nav" bg={THEME_COLORS.background} color="white" boxShadow="md">
+      <Box as="nav" bg={THEME_COLORS.background} color="white">
         <Container maxW="container.xl">
-          <Flex align="center" py={4}>
-            <Box flexBasis="200px">
-              <Image src="/GOE_Icon.png" alt="GOE Icon" width={80} height={80} />
+          <Flex align="center" py={{ base: 2, md: 4 }}>
+            <Box flexBasis={{ base: "120px", md: "200px" }}>
+              <Image src="/GOE_Icon.png" alt="GOE Icon" width={60} height={60} />
             </Box>
 
+            {/* Mobile Menu Button */}
+            <IconButton
+              display={{ base: 'flex', md: 'none' }}
+              icon={<HamburgerIcon />}
+              variant="ghost"
+              color="white"
+              onClick={onToggle}
+              ml="auto"
+              mr={2}
+            />
+
+            {/* Desktop Navigation */}
             <List
               display={{ base: "none", md: "flex" }}
               align="center"
               justify="center"
-              gap={10}
+              gap={{ md: 6, lg: 10 }}
               flex={1}
             >
               <IconButton
@@ -103,7 +116,39 @@ export default function Navbar() {
               {NAV_LINKS.map(renderNavLink)}
             </List>
 
-            <Flex align="center" gap={4} flexBasis="200px" justify="flex-end">
+            {/* Mobile Navigation */}
+            <Collapse in={isOpen} animateOpacity>
+              <Box
+                display={{ base: 'flex', md: 'none' }}
+                flexDirection="column"
+                bg={THEME_COLORS.background}
+                position="absolute"
+                top="100%"
+                left={0}
+                right={0}
+                p={4}
+                zIndex={2}
+              >
+                {NAV_LINKS.map(({ title }) => (
+                  <Text 
+                    key={title}
+                    py={2}
+                    color="white"
+                    _hover={{ color: THEME_COLORS.bronzeNude }}
+                  >
+                    {title}
+                  </Text>
+                ))}
+              </Box>
+            </Collapse>
+
+            {/* User Actions */}
+            <Flex 
+              align="center" 
+              gap={{ base: 2, md: 4 }} 
+              flexBasis={{ base: "auto", md: "200px" }}
+              justify="flex-end"
+            >
               <Flex align="center" gap={3}>  
                 <Image src="/globe.svg" alt="Language Icon" width={24} height={24} />
                 <Text fontSize="lg" fontWeight="medium">EN</Text>
