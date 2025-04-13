@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar.jsx";
 import WhySection from "./components/WhySection.jsx";
 import DiscoverSection from "./components/DiscoverSection.jsx";
 import CTA from "./components/CTA.jsx";
+import MostRelevantSection from "./components/MostRelevantSection.jsx";
+import Trending from "./components/Trending.jsx";
 import { Box } from '@chakra-ui/react';
 
 export default function Home() {
@@ -13,8 +15,11 @@ export default function Home() {
     <Box as="main" minH="100vh">
       <Navbar />
       <HeroSection />
+     
+      <MostRelevantSection />
       <DiscoverSection />
-      <WhySection />
+      <WhySection /> 
+      <Trending />
       <CTA />
       <Footer />
     </Box>
