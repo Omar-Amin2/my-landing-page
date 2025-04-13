@@ -71,7 +71,7 @@ const DiscoverSection = () => {
   };
 
   return (
-    <Box as="section" bg={THEME_COLORS.background} py={16} textAlign="left">
+    <Box as="section" bg={THEME_COLORS.background} py={10} textAlign="left">
       <Container maxW="container.xl">
         <Box mb={12}>
           <Heading 

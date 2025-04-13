@@ -74,7 +74,7 @@ export default function Trending() {
   };
 
   return (
-    <Box py={20} bg={THEME_COLORS.background}>
+    <Box py={10} bg={THEME_COLORS.background}>
       <Container maxW="container.xl">
         <Heading 
           size="2xl" 

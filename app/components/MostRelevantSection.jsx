@@ -123,7 +123,7 @@ export default function MostRelevantSection() {
     : enrichedHotels;
 
   return (
-    <Box py={{ base: 8, md: 16, lg: 20 }} bg={THEME_COLORS.background}>
+    <Box py= {10} bg={THEME_COLORS.background}>
       <Container maxW="container.xl">
         <Heading 
           mb={{ base: 6, md: 8, lg: 10 }} 

@@ -4,7 +4,7 @@ import { THEME_COLORS } from '@/constants';
 
 export default function CTA() {
   return (
-    <Box bg={THEME_COLORS.background} py={16}>
+    <Box bg={THEME_COLORS.background} py={10}>
       <Container maxW="container.xl">
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={0} alignItems="stretch">
           <GridItem height="400px">
