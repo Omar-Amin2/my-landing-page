@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";  // Added FiUser
+import { FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";
 import {
   Box,
   Flex,
@@ -16,6 +16,11 @@ import {
   Container,
   useDisclosure,
   Collapse,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { NAV_LINKS, AUTH_BUTTONS, THEME_COLORS } from "@/constants";
 import { useAuth } from '../context/AuthContext';
@@ -89,7 +94,7 @@ export default function Navbar() {
               color={THEME_COLORS.bronzeNude}
               _hover={{ bg: "#2a2a2a" }}
               rounded="full"
-              size="md"  // Changed from sm to md
+              size="md"
             />
             {NAV_LINKS.map(renderNavLink)}
           </List>
@@ -123,16 +128,73 @@ export default function Navbar() {
                   cursor="pointer"
                   _hover={{ opacity: 0.8 }}
                 />
-                <IconButton
-                  icon={<FiUser size="1.5em" />}  // Explicitly set icon size
-                  variant="ghost"
-                  bg="#242424"
-                  color={THEME_COLORS.bronzeNude}
-                  _hover={{ bg: "#2a2a2a" }}
-                  rounded="full"
-                  size="md"  // Changed from sm to md
-                  onClick={handleLogout}
-                />
+                <Menu>
+                  <MenuButton
+                    as={IconButton}
+                    icon={<FiUser size="1.5em" />}
+                    variant="ghost"
+                    bg="#242424"
+                    color={THEME_COLORS.bronzeNude}
+                    _hover={{ bg: "#2a2a2a" }}
+                    rounded="full"
+                    size="md"
+                  />
+                  <MenuList
+                    bg="white"
+                    borderRadius="xl"
+                    py={2}
+                    shadow="xl"
+                    border="none"
+                  >
+                    <MenuItem
+                      className="hover:bg-gray-50"
+                      fontSize="md"
+                      py={3}
+                      px={6}
+                      color={THEME_COLORS.bronzeNude}
+                    >
+                      My profile
+                    </MenuItem>
+                    <MenuItem
+                      className="hover:bg-gray-50"
+                      fontSize="md"
+                      py={3}
+                      px={6}
+                      color={"black"}
+                    >
+                      Saved bundles
+                    </MenuItem>
+                    <MenuItem
+                      className="hover:bg-gray-50"
+                      fontSize="md"
+                      py={3}
+                      px={6}
+                      color={"black"}
+                    >
+                      Invite friends
+                    </MenuItem>
+                    <MenuItem
+                      className="hover:bg-gray-50"
+                      fontSize="md"
+                      py={3}
+                      px={6}
+                      color={"black"}
+                    >
+                      Settings
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem
+                      className="hover:bg-gray-50"
+                      color="red.500"
+                      fontSize="md"
+                      py={3}
+                      px={6}
+                      onClick={handleLogout}
+                    >
+                      Log out
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               </Flex>
             )}
 
