@@ -1,9 +1,8 @@
 "use client"
 import Image from "next/image";
-import { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { FiHeart, FiShoppingCart, FiUser } from "react-icons/fi";
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -22,6 +21,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  VStack,
 } from "@chakra-ui/react";
 import { NAV_LINKS, AUTH_BUTTONS, THEME_COLORS } from "@/constants";
 import { useAuth } from '../context/AuthContext';
@@ -44,18 +44,9 @@ export default function Navbar() {
     setLoggedIn(true);
   };
 
-  useEffect(() => {
-    const rootElement = document.getElementById('__next');
-    if (rootElement) {
-      rootElement.removeAttribute('pwa-launched');
-      rootElement.removeAttribute('pwa-extension-id');
-      rootElement.removeAttribute('pwa-extension-url-root');
-    }
-  }, []);
-
-  const renderNavLink = ({ title }) => (
+  const renderNavLink = ({ title, id }) => (
     <ListItem 
-      key={title}
+      key={id || title}
       display="flex"
       alignItems="center"
       gap={2}
@@ -81,18 +72,24 @@ export default function Navbar() {
         <Container maxW="container.xl">
           <Flex align="center" py={{ base: 2, md: 4 }}>
             <Box flexBasis={{ base: "120px", md: "200px" }}>
-              <Image src="/GOE_Icon.png" alt="GOE Icon" width={60} height={60} />
+              <Image 
+                src="/GOE_Icon.png" 
+                alt="GOE Icon" 
+                width={80} 
+                height={80} 
+                style={{ width: 'auto', height: 'auto' }}
+              />
             </Box>
 
             {/* Mobile Menu Button */}
             <IconButton
               display={{ base: 'flex', md: 'none' }}
-              icon={<HamburgerIcon />}
+              icon={<HamburgerIcon boxSize={6} />}
               variant="ghost"
               color="white"
               onClick={onToggle}
               ml="auto"
-              mr={2}
+              _hover={{ bg: 'whiteAlpha.200' }}
             />
 
             {/* Desktop Navigation */}
@@ -116,42 +113,16 @@ export default function Navbar() {
               {NAV_LINKS.map(renderNavLink)}
             </List>
 
-            {/* Mobile Navigation */}
-            <Collapse in={isOpen} animateOpacity>
-              <Box
-                display={{ base: 'flex', md: 'none' }}
-                flexDirection="column"
-                bg={THEME_COLORS.background}
-                position="absolute"
-                top="100%"
-                left={0}
-                right={0}
-                p={4}
-                zIndex={2}
-              >
-                {NAV_LINKS.map(({ title }) => (
-                  <Text 
-                    key={title}
-                    py={2}
-                    color="white"
-                    _hover={{ color: THEME_COLORS.bronzeNude }}
-                  >
-                    {title}
-                  </Text>
-                ))}
-              </Box>
-            </Collapse>
-
             {/* User Actions */}
             <Flex 
               align="center" 
               gap={{ base: 2, md: 4 }} 
               flexBasis={{ base: "auto", md: "200px" }}
               justify="flex-end"
+              display={{ base: "none", md: "flex" }}  // Hide on mobile
             >
               <Flex align="center" gap={3}>  
                 <Image src="/globe.svg" alt="Language Icon" width={24} height={24} />
-                <Text fontSize="lg" fontWeight="medium">EN</Text>
               </Flex>
               
               {loggedIn && (
@@ -269,6 +240,93 @@ export default function Navbar() {
           </Flex>
         </Container>
       </Box>
+
+      {/* Mobile Menu Overlay */}
+      <Box
+        display={{ base: isOpen ? 'block' : 'none', md: 'none' }}
+        position="fixed"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        bg={THEME_COLORS.background}
+        zIndex={20}
+        p={4}
+      >
+        <Flex direction="column" h="full">
+          {/* Header */}
+          <Flex justify="space-between" align="center" mb={8}>
+            <Box>
+              <Text fontSize="2xl" fontWeight="bold">
+                <Text as="span" color={THEME_COLORS.bronzeNude}>Egy</Text>
+                <Text as="span" color="white">Book</Text>
+              </Text>
+            </Box>
+            <IconButton
+              icon={<CloseIcon />}
+              variant="ghost"
+              color="white"
+              onClick={onToggle}
+              _hover={{ bg: 'whiteAlpha.200' }}
+            />
+          </Flex>
+
+          {/* Menu Items */}
+          <VStack spacing={6} align="start" flex={1}>
+            {/* Language Selector */}
+            <Flex align="center" gap={2}>
+              <Image src="/globe.svg" alt="Language" width={24} height={24} />
+              <Text color="white" fontSize="lg">EN</Text>
+            </Flex>
+
+            {loggedIn ? (
+              <>
+                <Text color="white" fontSize="lg">Wishlist</Text>
+                <Text color="white" fontSize="lg">Cart</Text>
+                <Text color={THEME_COLORS.bronzeNude} fontSize="lg">My profile</Text>
+                <Text color="white" fontSize="lg">Saved deals</Text>
+                <Text color="white" fontSize="lg">Invite friends</Text>
+                <Text color="white" fontSize="lg">Settings</Text>
+                <Text 
+                  color="red.500" 
+                  fontSize="lg" 
+                  cursor="pointer"
+                  onClick={handleLogout}
+                  mt={4}
+                >
+                  Log out
+                </Text>
+              </>
+            ) : (
+              <>
+                <Button
+                  w="full"
+                  bg={THEME_COLORS.bronzeNude}
+                  color="white"
+                  onClick={handleLogin}
+                >
+                  Login
+                </Button>
+                <Button
+                  w="full"
+                  variant="outline"
+                  borderColor={THEME_COLORS.bronzeNude}
+                  color="white"
+                  onClick={handleSignup}
+                >
+                  Sign up
+                </Button>
+              </>
+            )}
+          </VStack>
+
+          {/* Bottom Logo */}
+          <Box mt="auto" alignSelf="center">
+            <Image src="/GOE_Icon.png" alt="GOE Icon" width={120} height={120} style={{ opacity: 0.5 }} />
+          </Box>
+        </Flex>
+      </Box>
+      
       <SearchOverlay isOpen={isSearchOpen} onClose={onSearchClose} />
     </>
   );

@@ -29,17 +29,31 @@ export default function Footer() {
     <Box 
       bg={THEME_COLORS.background} 
       color="white" 
-      py={8}
+      py={{ base: 12, md: 8 }}
       position="relative"
     >
-      <Container maxW="container.xl" position="relative">
-        <Flex direction="column" gap={8}>
+      <Container maxW="container.xl" position="relative" px={{ base: 6, md: 4 }}>
+        <Flex direction="column" gap={{ base: 10, md: 8 }}>
           {/* Top Section */}
-          <Flex justify="space-between" align="flex-end">  {/* Changed align to flex-end */}
-            {/* Left Column - Logo, Text, and Button */}
-            <VStack align="start" spacing={6} flex={1}>
-              <Image src="/GOE_Icon.png" alt="GOE Logo" width={150} height={80} />
-              <Text fontSize="3xl" maxW="400px">
+          <Flex 
+            direction={{ base: 'column', md: 'row' }}
+            justify="space-between" 
+            align={{ base: 'center', md: 'flex-end' }}
+            gap={{ base: 8, md: 0 }}
+          >
+            <VStack align={{ base: "center", md: "start" }} spacing={6} flex={1}>
+              <Image 
+                src="/GOE_Icon.png" 
+                alt="GOE Logo" 
+                width={150} 
+                height={80} 
+                style={{ width: 'auto', height: 'auto' }}
+              />
+              <Text 
+                fontSize={{ base: "xl", md: "3xl" }} 
+                maxW="400px"
+                textAlign={{ base: "center", md: "left" }}
+              >
                 Lorem, Ipsum Lorem, Ipsum Lorem, Ipsum or less.
               </Text>
               <Link
@@ -56,8 +70,12 @@ export default function Footer() {
               </Link>
             </VStack>
 
-            {/* Right Column - Social Icons */}
-            <HStack spacing={3} mb={1}>  {/* Replaced mt with mb for fine-tuning */}
+            <HStack 
+              spacing={3} 
+              mb={{ base: 0, md: 1 }}
+              flexWrap={{ base: 'wrap', md: 'nowrap' }}
+              justify={{ base: 'center', md: 'flex-start' }}
+            >
               {SOCIAL_LINKS.map((social) => (
                 <Link 
                   key={social.name} 
@@ -79,23 +97,32 @@ export default function Footer() {
             </HStack>
           </Flex>
 
-          {/* Bottom Section - Navigation and Copyright */}
-          <VStack spacing={8} align="center" pt={4}>
-            <HStack spacing={8}>
+          {/* Bottom Section */}
+          <VStack spacing={{ base: 6, md: 8 }} align="center" pt={4}>
+            <Flex 
+              gap={{ base: 4, md: 8 }}
+              direction={{ base: 'column', md: 'row' }}
+              align="center"
+              textAlign="center"
+            >
               {FOOTER_LINKS.map((link) => (
                 <Link
                   key={link.title}
                   href={link.href}
-                  fontSize="lg"
+                  fontSize={{ base: "md", md: "lg" }}
                   _hover={{ textDecoration: 'none', opacity: 0.6 }}
                   color="white"
                 >
                   {renderLinkText(link.title)}
                 </Link>
               ))}
-            </HStack>
+            </Flex>
 
-            <Text textAlign="center" opacity={0.8}>
+            <Text 
+              textAlign="center" 
+              opacity={0.8}
+              fontSize={{ base: "sm", md: "md" }}
+            >
               Copyright Gates of Egypt © {new Date().getFullYear()}
               <br />
               All rights reserved

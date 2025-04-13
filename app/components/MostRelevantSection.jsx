@@ -1,33 +1,10 @@
 'use client'
-import { Box, Container, Heading, Text, Icon, Link, IconButton, HStack, VStack } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, Icon, Link, IconButton, HStack, VStack, Flex } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { FaHeart, FaRegHeart, FaStar, FaStarHalf, FaRegStar } from 'react-icons/fa'
 import { THEME_COLORS } from '@/constants'
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-import { useState } from 'react'
-
-const CustomArrow = ({ direction, onClick }) => (
-  <IconButton
-    aria-label={`${direction} arrow`}
-    icon={direction === 'left' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-    onClick={onClick}
-    position="absolute"
-    top="50%"
-    transform="translateY(-50%)"
-    {...(direction === 'left' ? { left: "-40px" } : { right: "-40px" })}
-    zIndex={2}
-    rounded="full"
-    bg={THEME_COLORS.bronzeNude}
-    color="white"
-    _hover={{
-      bg: THEME_COLORS.bronzeNude,
-      opacity: 0.8,
-    }}
-  />
-);
+import { useState, useRef } from 'react'
 
 const RatingStars = ({ rating }) => {
   const stars = []
@@ -72,6 +49,7 @@ const hotels = [
 ]
 
 export default function MostRelevantSection() {
+  const scrollContainerRef = useRef(null);
   const [enrichedHotels, setEnrichedHotels] = useState(hotels)
   const [favorites, setFavorites] = useState([])
   const [loading, setLoading] = useState(false)
@@ -85,37 +63,18 @@ export default function MostRelevantSection() {
     )
   }
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <CustomArrow direction="right" />,
-    prevArrow: <CustomArrow direction="left" />,
-    responsive: [
-      {
-        breakpoint: 1536,
-        settings: {
-          slidesToShow: 3,
-        }
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false,
-        }
-      }
-    ]
+  const scroll = (direction) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const scrollAmount = direction === 'left' 
+      ? -container.offsetWidth * 0.8
+      : container.offsetWidth * 0.8;
+
+    container.scrollBy({
+      left: scrollAmount,
+      behavior: 'smooth'
+    });
   };
 
   const displayHotels = enrichedHotels.length < 3 
@@ -123,20 +82,62 @@ export default function MostRelevantSection() {
     : enrichedHotels;
 
   return (
-    <Box py= {10} bg={THEME_COLORS.background}>
+    <Box py={{ base: 8, md: 16 }}>
       <Container maxW="container.xl">
-        <Heading 
-          mb={{ base: 6, md: 8, lg: 10 }} 
-          size={{ base: "xl", lg: "2xl" }} 
-          color="white"
+        <HStack 
+          justify="space-between" 
+          mb={{ base: 6, md: 10 }}
+          px={{ base: 4, md: 0 }}
         >
-          The Most Relevant
-        </Heading>
-        
-        <Box position="relative" px={{ base: 2, md: 6, lg: 8 }}>
-          <Slider {...settings}>
+          <Heading 
+            size={{ base: "xl", lg: "2xl" }} 
+            color="white"
+          >
+            The Most Relevant
+          </Heading>
+        </HStack>
+
+        <Box 
+          position="relative"
+          px={{ base: 2, md: 0 }}
+        >
+          <IconButton
+            icon={<ChevronLeftIcon />}
+            position="absolute"
+            left={{ base: 2, md: -5 }}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            rounded="full"
+            bg="white"
+            size={{ base: "sm", md: "md" }}
+            onClick={() => scroll('left')}
+            _hover={{ bg: 'white', transform: 'translateY(-50%) scale(1.1)' }}
+            transition="all 0.2s"
+          />
+
+          <Flex 
+            ref={scrollContainerRef}
+            gap={{ base: 3, md: 6 }}
+            overflowX="auto"
+            px={{ base: 4, md: 0 }}
+            scrollBehavior="smooth"
+            sx={{
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollSnapType: 'x mandatory',
+              '& > div': {
+                scrollSnapAlign: 'start',
+              }
+            }}
+          >
             {displayHotels.map((hotel, index) => (
-              <Box key={`${hotel.id}-${index}`} p={2}>
+              <Box 
+                key={`${hotel.id}-${index}`} 
+                p={2} 
+                flex={{ base: "0 0 85%", md: "0 0 auto" }}
+                width={{ base: "80%", md: "auto" }}
+              >
                 <Link 
                   href={hotel.bookingUrl}
                   target="_blank"
@@ -181,6 +182,7 @@ export default function MostRelevantSection() {
                           src={hotel.previewImage}
                           alt={`${hotel.name}`}
                           fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                           style={{ objectFit: 'cover' }}
                         />
                       </Box>
@@ -259,9 +261,24 @@ export default function MostRelevantSection() {
                 </Link>
               </Box>
             ))}
-          </Slider>
+          </Flex>
+
+          <IconButton
+            icon={<ChevronRightIcon />}
+            position="absolute"
+            right={{ base: 2, md: -5 }}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            rounded="full"
+            bg="white"
+            size={{ base: "sm", md: "md" }}
+            onClick={() => scroll('right')}
+            _hover={{ bg: 'white', transform: 'translateY(-50%) scale(1.1)' }}
+            transition="all 0.2s"
+          />
         </Box>
       </Container>
     </Box>
-  )
+  );
 }

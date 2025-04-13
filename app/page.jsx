@@ -17,7 +17,8 @@ export default function Home() {
       minH="100vh" 
       display="flex" 
       flexDirection="column" 
-      gap={{ base: 3, md: 4, lg: 5 }}
+      gap={{ base: 6, md: 8, lg: 10 }}
+      pb={{ base: 10, md: 16 }}
     >
       <Navbar />
       <HeroSection />

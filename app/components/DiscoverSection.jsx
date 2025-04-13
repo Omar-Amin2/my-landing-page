@@ -1,6 +1,7 @@
 'use client'
-import { Box, Heading, Text, Image, VStack, IconButton, Container } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, VStack, IconButton, Container, Flex } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { useRef } from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -29,6 +30,18 @@ const CustomArrow = ({ direction, onClick }) => (
 
 const DiscoverSection = () => {
   const { loggedIn } = useAuth();
+  const scrollContainerRef = useRef(null);
+
+  const scroll = (direction) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const scrollAmount = direction === 'left' 
+      ? -container.offsetWidth * 0.8 
+      : container.offsetWidth * 0.8;
+
+    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  };
 
   const items = [
     { id: 1, image: '/redSea.jpeg', title: 'Red Sea', description: 'Explore the beautiful Red Sea coast.' },
@@ -71,25 +84,52 @@ const DiscoverSection = () => {
   };
 
   return (
-    <Box as="section" bg={THEME_COLORS.background} py={10} textAlign="left">
+    <Box py={{ base: 8, md: 16 }}>
       <Container maxW="container.xl">
-        <Box mb={12}>
-          <Heading 
-            as="h2" 
-            size="2xl" 
-            mb={4}
-            color="white"
+        <Heading 
+          size={{ base: "xl", lg: "2xl" }} 
+          color="white"
+          mb={{ base: 6, md: 10 }}
+          px={{ base: 4, md: 0 }}
+        >
+          Discover New Places
+        </Heading>
+
+        <Box position="relative" px={{ base: 2, md: 0 }}>
+          <IconButton
+            icon={<ChevronLeftIcon />}
+            position="absolute"
+            left={{ base: 0, md: -5 }}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            rounded="full"
+            bg="white"
+            size={{ base: "sm", md: "md" }}
+            onClick={() => scroll('left')}
+          />
+
+          <Flex
+            ref={scrollContainerRef}
+            gap={{ base: 3, md: 6 }}
+            overflowX="auto"
+            px={{ base: 4, md: 0 }}
+            scrollBehavior="smooth"
+            sx={{
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollSnapType: 'x mandatory',
+              '& > div': {
+                scrollSnapAlign: 'start',
+              }
+            }}
           >
-            Discover New Places
-          </Heading>
-          <Text fontSize="lg" color="gray.400">
-            Explore our curated collection of items just for you.
-          </Text>
-        </Box>
-        <Box position="relative" px={8}>
-          <Slider {...settings}>
             {items.map((item) => (
-              <Box key={item.id} p={2}>
+              <Box 
+                key={item.id} 
+                p={2} 
+                flex={{ base: "0 0 85%", md: "0 0 33.33%" }}
+              >
                 <VStack
                   bg="gray.900"
                   borderRadius="lg"
@@ -97,7 +137,7 @@ const DiscoverSection = () => {
                   h="350px"
                   align="start"
                   margin="1px"
-                  className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(200,160,130,0.3)] hover:shadow-bronzeNude/30"
+                  className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(200,160,130,0.3)]"
                 >
                   <Image
                     src={item.image}
@@ -118,7 +158,20 @@ const DiscoverSection = () => {
                 </VStack>
               </Box>
             ))}
-          </Slider>
+          </Flex>
+
+          <IconButton
+            icon={<ChevronRightIcon />}
+            position="absolute"
+            right={{ base: 0, md: -5 }}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            rounded="full"
+            bg="white"
+            size={{ base: "sm", md: "md" }}
+            onClick={() => scroll('right')}
+          />
         </Box>
       </Container>
     </Box>

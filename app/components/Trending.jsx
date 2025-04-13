@@ -1,30 +1,7 @@
 'use client'
-import { Box, Container, Heading, Text, IconButton } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, IconButton, Flex, HStack } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { THEME_COLORS } from '@/constants'
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-
-const CustomArrow = ({ direction, onClick }) => (
-  <IconButton
-    aria-label={`${direction} arrow`}
-    icon={direction === 'left' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-    onClick={onClick}
-    position="absolute"
-    top="50%"
-    transform="translateY(-50%)"
-    {...(direction === 'left' ? { left: "-40px" } : { right: "-40px" })}
-    zIndex={2}
-    rounded="full"
-    bg={THEME_COLORS.bronzeNude}
-    color="white"
-    _hover={{
-      bg: THEME_COLORS.bronzeNude,
-      opacity: 0.8,
-    }}
-  />
-);
 
 const destinations = [
   {
@@ -48,46 +25,51 @@ const destinations = [
 ];
 
 export default function Trending() {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    nextArrow: <CustomArrow direction="right" />,
-    prevArrow: <CustomArrow direction="left" />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-        }
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          arrows: false,
-        }
-      }
-    ]
-  };
-
   return (
-    <Box py={10} bg={THEME_COLORS.background}>
+    <Box py={{ base: 8, md: 16 }}>
       <Container maxW="container.xl">
-        <Heading 
-          size="2xl" 
-          color="white" 
-          mb={10}
+        <HStack 
+          justify="space-between" 
+          mb={{ base: 6, md: 10 }}
+          px={{ base: 4, md: 0 }}
         >
-          Trending Destinations
-        </Heading>
-        
-        <Box position="relative" px={8}>
-          <Slider {...settings}>
+          <Heading 
+            size="2xl" 
+            color="white"
+          >
+            Trending Destinations
+          </Heading>
+        </HStack>
+
+        <Box position="relative">
+          <IconButton
+            aria-label="left arrow"
+            icon={<ChevronLeftIcon />}
+            position="absolute"
+            top="50%"
+            left={{ base: 2, md: "-40px" }}
+            transform="translateY(-50%)"
+            zIndex={2}
+            rounded="full"
+            bg={THEME_COLORS.bronzeNude}
+            color="white"
+            _hover={{
+              bg: THEME_COLORS.bronzeNude,
+              opacity: 0.8,
+            }}
+          />
+
+          <Flex 
+            gap={{ base: 3, md: 6 }}
+            overflowX="auto"
+            px={{ base: 4, md: 0 }}
+            sx={{
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': { display: 'none' },
+            }}
+          >
             {destinations.map((destination) => (
-              <Box key={destination.id} p={2}>
+              <Box key={destination.id} flex="0 0 auto" w={{ base: "80%", md: "30%" }}>
                 <Box
                   position="relative"
                   h="400px"
@@ -155,7 +137,24 @@ export default function Trending() {
                 </Box>
               </Box>
             ))}
-          </Slider>
+          </Flex>
+
+          <IconButton
+            aria-label="right arrow"
+            icon={<ChevronRightIcon />}
+            position="absolute"
+            top="50%"
+            right={{ base: 2, md: "-40px" }}
+            transform="translateY(-50%)"
+            zIndex={2}
+            rounded="full"
+            bg={THEME_COLORS.bronzeNude}
+            color="white"
+            _hover={{
+              bg: THEME_COLORS.bronzeNude,
+              opacity: 0.8,
+            }}
+          />
         </Box>
       </Container>
     </Box>
