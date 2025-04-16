@@ -1,4 +1,5 @@
 'use client'
+import { useRef, useState } from 'react'
 import { Box, Container, Heading, Text, IconButton, Flex, HStack } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { THEME_COLORS } from '@/constants'
@@ -25,9 +26,31 @@ const destinations = [
 ];
 
 export default function Trending() {
+  const scrollContainerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleScroll = (direction) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const cardWidth = container.offsetWidth / 2; // 2 cards visible
+    const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+    
+    if (direction === 'right' && currentIndex >= destinations.length - 2) {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+      setCurrentIndex(0);
+    } else if (direction === 'left' && currentIndex === 0) {
+      container.scrollTo({ left: container.scrollWidth - cardWidth * 2, behavior: 'smooth' });
+      setCurrentIndex(destinations.length - 2);
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      setCurrentIndex(prev => direction === 'left' ? prev - 1 : prev + 1);
+    }
+  };
+
   return (
     <Box py={{ base: 8, md: 16 }}>
-      <Container maxW="container.xl">
+      <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
         <HStack 
           justify="space-between" 
           mb={{ base: 6, md: 10 }}
@@ -57,19 +80,31 @@ export default function Trending() {
               bg: THEME_COLORS.bronzeNude,
               opacity: 0.8,
             }}
+            onClick={() => handleScroll('left')}
           />
 
           <Flex 
-            gap={{ base: 3, md: 6 }}
+            ref={scrollContainerRef}
+            gap={{ base: 3, md: 4 }}
             overflowX="auto"
-            px={{ base: 4, md: 0 }}
+            pl={{ base: 4, md: 0 }}
+            pr={{ base: 0, md: 0 }}
+            mr={{ base: "-20%", md: "-10%" }}
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
+              scrollSnapType: 'x mandatory',
+              '& > div': {
+                scrollSnapAlign: 'start',
+              }
             }}
           >
             {destinations.map((destination) => (
-              <Box key={destination.id} flex="0 0 auto" w={{ base: "80%", md: "30%" }}>
+              <Box 
+                key={destination.id} 
+                p={2}
+                flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
+              >
                 <Box
                   position="relative"
                   h="400px"
@@ -154,6 +189,7 @@ export default function Trending() {
               bg: THEME_COLORS.bronzeNude,
               opacity: 0.8,
             }}
+            onClick={() => handleScroll('right')}
           />
         </Box>
       </Container>

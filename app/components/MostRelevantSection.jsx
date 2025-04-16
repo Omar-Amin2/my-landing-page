@@ -46,10 +46,33 @@ const hotels = [
     previewImage: '/cairo-booking.jpg',
     websiteName: 'Booking.com'
   },
+  {
+    id: 1,
+    name: 'Kempinski Hotel Soma Bay',
+    location: 'Soma Bay',
+    rating: 4.7,
+    reviews: '1,274',
+    price: 214,
+    bookingUrl: 'https://booking.com/kempinski-soma-bay',
+    previewImage: '/soma-bay-booking.jpg',
+    websiteName: 'Booking.com'
+  },
+  {
+    id: 2,
+    name: 'JW Marriott Hotel Cairo',
+    location: 'Cairo',
+    rating: 4.6,
+    reviews: '2,274',
+    price: 194,
+    bookingUrl: 'https://booking.com/jw-marriott-cairo',
+    previewImage: '/cairo-booking.jpg',
+    websiteName: 'Booking.com'
+  },
 ]
 
 export default function MostRelevantSection() {
   const scrollContainerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [enrichedHotels, setEnrichedHotels] = useState(hotels)
   const [favorites, setFavorites] = useState([])
   const [loading, setLoading] = useState(false)
@@ -67,23 +90,34 @@ export default function MostRelevantSection() {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const scrollAmount = direction === 'left' 
-      ? -container.offsetWidth * 0.8
-      : container.offsetWidth * 0.8;
+    const cardWidth = container.offsetWidth / 2; // Show 2 cards
+    const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+    
+    // Calculate new index
+    let newIndex = direction === 'left' 
+      ? currentIndex - 1 
+      : currentIndex + 1;
 
-    container.scrollBy({
-      left: scrollAmount,
-      behavior: 'smooth'
-    });
+    // Handle circular scrolling
+    if (newIndex < 0) {
+      newIndex = hotels.length - 2;
+      container.scrollTo({ left: container.scrollWidth - cardWidth * 2, behavior: 'instant' });
+      setTimeout(() => {
+        container.scrollTo({ left: container.scrollWidth - cardWidth * 3, behavior: 'smooth' });
+      }, 0);
+    } else if (newIndex >= hotels.length - 1) {
+      newIndex = 0;
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+    
+    setCurrentIndex(newIndex);
   };
-
-  const displayHotels = enrichedHotels.length < 3 
-    ? [...enrichedHotels, ...enrichedHotels, ...enrichedHotels].slice(0, 6)
-    : enrichedHotels;
 
   return (
     <Box py={{ base: 8, md: 16 }}>
-      <Container maxW="container.xl">
+      <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
         <HStack 
           justify="space-between" 
           mb={{ base: 6, md: 10 }}
@@ -97,10 +131,7 @@ export default function MostRelevantSection() {
           </Heading>
         </HStack>
 
-        <Box 
-          position="relative"
-          px={{ base: 2, md: 0 }}
-        >
+        <Box position="relative">
           <IconButton
             icon={<ChevronLeftIcon />}
             position="absolute"
@@ -118,10 +149,11 @@ export default function MostRelevantSection() {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 3, md: 6 }}
+            gap={{ base: 3, md: 4 }}
             overflowX="auto"
-            px={{ base: 4, md: 0 }}
-            scrollBehavior="smooth"
+            pl={{ base: 4, md: 0 }}
+            pr={{ base: 0, md: 0 }}
+            mr={{ base: "-20%", md: "-10%" }}
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -131,12 +163,11 @@ export default function MostRelevantSection() {
               }
             }}
           >
-            {displayHotels.map((hotel, index) => (
+            {hotels.map((hotel, index) => (
               <Box 
-                key={`${hotel.id}-${index}`} 
-                p={2} 
-                flex={{ base: "0 0 85%", md: "0 0 auto" }}
-                width={{ base: "80%", md: "auto" }}
+                key={hotel.id} 
+                p={2}
+                flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
               >
                 <Link 
                   href={hotel.bookingUrl}

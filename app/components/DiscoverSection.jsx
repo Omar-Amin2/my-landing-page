@@ -85,7 +85,7 @@ const DiscoverSection = () => {
 
   return (
     <Box py={{ base: 8, md: 16 }}>
-      <Container maxW="container.xl">
+      <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
         <Heading 
           size={{ base: "xl", lg: "2xl" }} 
           color="white"
@@ -95,7 +95,7 @@ const DiscoverSection = () => {
           Discover New Places
         </Heading>
 
-        <Box position="relative" px={{ base: 2, md: 0 }}>
+        <Box position="relative">
           <IconButton
             icon={<ChevronLeftIcon />}
             position="absolute"
@@ -109,12 +109,13 @@ const DiscoverSection = () => {
             onClick={() => scroll('left')}
           />
 
-          <Flex
+          <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 3, md: 6 }}
+            gap={{ base: 3, md: 4 }}
             overflowX="auto"
-            px={{ base: 4, md: 0 }}
-            scrollBehavior="smooth"
+            pl={{ base: 4, md: 0 }}
+            pr={{ base: 0, md: 0 }}
+            mr={{ base: "-20%", md: "-10%" }}
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -127,8 +128,8 @@ const DiscoverSection = () => {
             {items.map((item) => (
               <Box 
                 key={item.id} 
-                p={2} 
-                flex={{ base: "0 0 85%", md: "0 0 33.33%" }}
+                p={2}
+                flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
               >
                 <VStack
                   bg="gray.900"
