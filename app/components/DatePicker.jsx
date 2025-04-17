@@ -10,6 +10,7 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export default function DatePicker({ isOpen, onClose, onSelect, selectedLocation, selectedGuests }) {
+  const today = new Date(); // Get current date
   const [currentDate] = useState(new Date())
   const [selectedStartDate, setSelectedStartDate] = useState(null)
   const [selectedEndDate, setSelectedEndDate] = useState(null)
@@ -28,6 +29,7 @@ export default function DatePicker({ isOpen, onClose, onSelect, selectedLocation
   };
 
   const handleDateClick = (date) => {
+    if (date < today) return; // Prevent selecting past dates
     if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
       setSelectedStartDate(date)
       setSelectedEndDate(null)
@@ -84,6 +86,7 @@ export default function DatePicker({ isOpen, onClose, onSelect, selectedLocation
           color={isSelected ? 'white' : 'gray.200'}
           _hover={{ bg: `${THEME_COLORS.bronzeNude}50` }}
           onClick={() => handleDateClick(date)}
+          isDisabled={date < today} // Disable past dates
         >
           {day}
         </Button>
@@ -107,36 +110,41 @@ export default function DatePicker({ isOpen, onClose, onSelect, selectedLocation
       <Box 
         maxW="3xl"
         mx="auto"
-        mt={20}
-        p={6}
+        mt={{ base: 4, md: 20 }}
+        p={{ base: 3, md: 6 }}
         onClick={e => e.stopPropagation()}
       >
         {/* Search bar summary */}
         <HStack 
           bg="rgba(45, 45, 45, 0.95)"
-          p={4}
+          p={{ base: 3, md: 4 }}
           rounded="lg"
-          mb={6}
-          spacing={8}
+          mb={{ base: 4, md: 6 }}
+          spacing={{ base: 3, md: 8 }}
+          flexDir={{ base: 'column', md: 'row' }}
+          align={{ base: 'stretch', md: 'center' }}
         >
           <HStack flex={1}>
-            <FaMapMarkerAlt color={THEME_COLORS.bronzeNude} />
-            <Text color="white">{selectedLocation || 'Select location'}</Text>
+            <FaMapMarkerAlt color={THEME_COLORS.bronzeNude} size={16} />
+            <Text color="white" fontSize={{ base: "sm", md: "md" }} noOfLines={1}>{selectedLocation || 'Select location'}</Text>
           </HStack>
           <HStack flex={1}>
-            <FaCalendarAlt color={THEME_COLORS.bronzeNude} />
-            <Text color="white">
+            <FaCalendarAlt color={THEME_COLORS.bronzeNude} size={16} />
+            <Text color="white" fontSize={{ base: "sm", md: "md" }} noOfLines={1}>
               {selectedStartDate ? `${formatDate(selectedStartDate)}${selectedEndDate ? ` - ${formatDate(selectedEndDate)}` : ''}` : 'Add dates'}
             </Text>
           </HStack>
           <HStack flex={1}>
-            <FaUsers color={THEME_COLORS.bronzeNude} />
-            <Text color="white">{selectedGuests || 'Add guests'}</Text>
+            <FaUsers color={THEME_COLORS.bronzeNude} size={16} />
+            <Text color="white" fontSize={{ base: "sm", md: "md" }} noOfLines={1}>{selectedGuests || 'Add guests'}</Text>
           </HStack>
           <Button
             bg={THEME_COLORS.bronzeNude}
             color="white"
-            px={6}
+            px={{ base: 4, md: 6 }}
+            py={{ base: 2, md: 3 }}
+            w={{ base: "full", md: "auto" }}
+            fontSize={{ base: "sm", md: "md" }}
             onClick={handleSave}
             isDisabled={!selectedStartDate || !selectedEndDate}
             _hover={{ opacity: 0.9 }}

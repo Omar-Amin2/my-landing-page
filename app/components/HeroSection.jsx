@@ -25,6 +25,7 @@ export default function HeroSection() {
       maxHeight={{ base: "800px", md: "800px" }}
       width="100%" 
       overflow="hidden"
+      mt={{ base: "-1", md: "-8" }}  // Add negative margin to reduce gap
     >
       <Image
         src="/heroPic.png"
@@ -50,15 +51,16 @@ export default function HeroSection() {
       />
       <Container maxW="container.xl" h="full" position="relative" zIndex={1}>
         <Stack
-          spacing={{ base: 3, md: 3 }}
+          spacing={{ base: 4, md: 6 }}
           position="relative"
-          top={{ base: "15%", md: "35%" }}
-          transform={{ base: "none", md: "translateY(-45%)" }}
+          top="50%"
+          transform="translateY(-50%)"
           px={{ base: 4, md: 0 }}
           color="white"
           maxW="5xl"
+          mx="auto"
         >
-          <Box mb={{ base: 4, md: 2 }}>
+          <Box mb={{ base: 3, md: 4 }}>
             <HStack spacing={2} mb={{ base: 3, md: 2 }}>
               <Icon as={FaLocationArrow} color="white" boxSize={{ base: 3, md: 4 }} />
               <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold">Egypt</Text>
@@ -83,7 +85,7 @@ export default function HeroSection() {
           </Box>
           <Text 
             fontSize={{ base: "lg", md: "2xl" }} 
-            mb={{ base: 4, md: 6 }}
+            mb={{ base: 3, md: 5 }}
             display={{ base: "none", md: "block" }}
           >
             Book 450+ Curated Egyptian Hotels
@@ -101,7 +103,7 @@ export default function HeroSection() {
             color="white"
             width="100%"
             boxShadow="dark-lg"
-            mt={{ base: 2, md: 12 }}
+            mt={{ base: 3, md: 6 }}
           >
             {['location', 'dates', 'guests'].map((input) => (
               <HStack 
@@ -181,6 +183,7 @@ export default function HeroSection() {
         onSelect={setSelectedDates}
         selectedLocation={selectedLocation}
         selectedGuests={selectedGuests}
+        allowInvalidDates={false}
       />
 
       <GuestPicker

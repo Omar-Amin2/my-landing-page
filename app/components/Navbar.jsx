@@ -70,7 +70,7 @@ export default function Navbar() {
     <>
       <Box as="nav" bg={THEME_COLORS.background} color="white">
         <Container maxW="container.xl">
-          <Flex align="center" py={{ base: 2, md: 4 }}>
+          <Flex align="center" py={{ base: 1, md: 2 }}>
             <Box flexBasis={{ base: "120px", md: "200px" }}>
               <Image 
                 src="/GOE_Icon.png" 
