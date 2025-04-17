@@ -23,7 +23,28 @@ const destinations = [
     description: 'Dive into breathtaking underwater world.',
     image: '/sharm.jpeg',
   },
+  {
+    id: 4,
+    name: 'Luxor & Aswan',
+    description: 'Journey through Ancient Egyptian heritage.',
+    image: '/Luxor.jpeg',
+  },
 ];
+
+const getGradientOverlay = (name) => {
+  switch(name) {
+    case 'Cairo':
+      return 'linear-gradient(to right, rgba(255, 140, 0, 0.7) 0%, rgba(255, 98, 0, 0) 80%)';
+    case 'Hurghada':
+      return 'linear-gradient(to right, rgba(0, 120, 255, 0.7) 0%, rgba(0, 190, 255, 0) 80%)';
+    case 'Sharm':
+      return 'linear-gradient(to right, rgba(237, 47, 47, 0.7) 0%, rgba(255, 90, 90, 0) 80%)';
+    case 'Luxor & Aswan':
+      return 'linear-gradient(to right, rgba(128, 0, 128, 0.7) 0%, rgba(180, 90, 180, 0) 80%)';
+    default:
+      return 'linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 80%)';
+  }
+};
 
 export default function Trending() {
   const scrollContainerRef = useRef(null);
@@ -67,17 +88,15 @@ export default function Trending() {
         <Box position="relative">
           <IconButton
             aria-label="left arrow"
-            icon={<ChevronLeftIcon />}
+            icon={<ChevronLeftIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
             top="50%"
             left={{ base: 2, md: "-40px" }}
             transform="translateY(-50%)"
             zIndex={2}
             rounded="full"
-            bg={THEME_COLORS.bronzeNude}
             color="white"
             _hover={{
-              bg: THEME_COLORS.bronzeNude,
               opacity: 0.8,
             }}
             onClick={() => handleScroll('left')}
@@ -128,28 +147,27 @@ export default function Trending() {
                     justifyContent="space-between"
                     p={8}
                     background={`
+                      ${getGradientOverlay(destination.name)},
                       linear-gradient(to bottom, 
-                        rgba(0,0,0,0.7) 0%, 
+                        rgba(0,0,0,0.4) 0%, 
                         transparent 30%,
                         transparent 70%,
                         rgba(0,0,0,0.4) 100%)
                     `}
                     color="white"
                   >
-                    {/* Top text content */}
                     <Box>
                       <Heading size="xl" mb={2}>
                         {destination.name}
                       </Heading>
                       <Text 
-                        fontSize="lg"
+                        fontSize= "xx-large"
                         opacity={0.9}
                       >
                         {destination.description}
                       </Text>
                     </Box>
 
-                    {/* Bottom button */}
                     <Box alignSelf="flex-start">
                       <Box
                         as="button"
@@ -176,17 +194,15 @@ export default function Trending() {
 
           <IconButton
             aria-label="right arrow"
-            icon={<ChevronRightIcon />}
+            icon={<ChevronRightIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
             top="50%"
             right={{ base: 2, md: "-40px" }}
             transform="translateY(-50%)"
             zIndex={2}
             rounded="full"
-            bg={THEME_COLORS.bronzeNude}
             color="white"
             _hover={{
-              bg: THEME_COLORS.bronzeNude,
               opacity: 0.8,
             }}
             onClick={() => handleScroll('right')}

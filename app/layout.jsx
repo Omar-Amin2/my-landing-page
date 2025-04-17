@@ -10,7 +10,6 @@ import ClientOnly from './components/ClientOnly'
 export default function RootLayout({ children }) {
   useEffect(() => {
     const handleError = (event) => {
-      // Prevent the error from bubbling up
       event.preventDefault()
       console.error('Caught error:', event.error)
     }
@@ -32,14 +31,15 @@ export default function RootLayout({ children }) {
                 {children}
                 <Box
                   position="absolute"
-                  bottom={-10}
-                  left={-10}
-                  right={-10}
-                  height="300px"
+                  bottom={-20}
+                  left={-20}
+                  right={-20}
+                  height="500px"
                   pointerEvents="none"
-                  bgGradient={`linear(to-t, ${THEME_COLORS.bronzeNude}50, ${THEME_COLORS.bronzeNude}20, transparent)`}
+                  bgGradient={`radial(circle at bottom, ${THEME_COLORS.bronzeNude}40 0%, ${THEME_COLORS.bronzeNude}20 30%, transparent 70%)`}
                   zIndex={0}
-                  transform="scale(1.1)"
+                  transform="scale(1.2)"
+                  filter="blur(20px)"
                 />
               </Box>
             </ChakraProvider>

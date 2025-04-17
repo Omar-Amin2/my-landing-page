@@ -43,7 +43,7 @@ export default function Footer() {
           >
             <VStack align={{ base: "center", md: "start" }} spacing={6} flex={1}>
               <Image 
-                src="/GOE_Icon.png" 
+                src="/GOE_Icon2.png" 
                 alt="GOE Logo" 
                 width={150} 
                 height={80} 

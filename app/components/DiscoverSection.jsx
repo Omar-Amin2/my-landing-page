@@ -1,7 +1,7 @@
 'use client'
 import { Box, Heading, Text, Image, VStack, IconButton, Container, Flex } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,7 +11,11 @@ import { THEME_COLORS } from '@/constants';
 const CustomArrow = ({ direction, onClick }) => (
   <IconButton
     aria-label={`${direction} arrow`}
-    icon={direction === 'left' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+    icon={
+      direction === 'left'
+        ? <ChevronLeftIcon color={THEME_COLORS.bronzeNude} boxSize={8} />
+        : <ChevronRightIcon color={THEME_COLORS.bronzeNude} boxSize={8} />
+    }
     onClick={onClick}
     position="absolute"
     top="50%"
@@ -31,25 +35,47 @@ const CustomArrow = ({ direction, onClick }) => (
 const DiscoverSection = () => {
   const { loggedIn } = useAuth();
   const scrollContainerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const scroll = (direction) => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const scrollAmount = direction === 'left' 
-      ? -container.offsetWidth * 0.8 
-      : container.offsetWidth * 0.8;
+    const visibleCards = 4.2;
+    const cardWidth = container.offsetWidth / visibleCards;
+    const totalCards = items.length;
 
-    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    let newIndex = currentIndex;
+
+    if (direction === 'left') {
+      newIndex = currentIndex - 1;
+      if (newIndex < 0) {
+        newIndex = totalCards - 1; // Go to last card
+      }
+    } else {
+      newIndex = currentIndex + 1;
+      if (newIndex >= totalCards) {
+        newIndex = 0; // Go to first card
+      }
+    }
+
+    const targetScroll = newIndex * cardWidth;
+
+    container.scrollTo({
+      left: targetScroll,
+      behavior: 'smooth'
+    });
+
+    setCurrentIndex(newIndex);
   };
 
   const items = [
-    { id: 1, image: '/redSea.jpeg', title: 'Red Sea', description: 'Explore the beautiful Red Sea coast.' },
-    { id: 2, image: '/somaBay.jpeg', title: 'Soma Bay', description: 'Discover the pristine waters of Soma Bay.' },
-    { id: 3, image: '/giza.jpeg', title: 'Giza', description: 'Marvel at the Great Pyramids of Giza.' },
-    { id: 4, image: '/nile.jpeg', title: 'Nile', description: 'Experience the majestic Nile River.' },
-    { id: 5, image: '/nabqBay.jpeg', title: 'Nabq Bay', description: 'Relax at the serene Nabq Bay.' },
-    { id: 6, image: '/others.jpeg', title: 'Others', description: 'Discover other amazing destinations.' },
+    { id: 1, image: '/redSea.jpeg', title: 'Red Sea' },
+    { id: 2, image: '/somaBay.jpeg', title: 'Soma Bay' },
+    { id: 3, image: '/giza.jpeg', title: 'Giza' },
+    { id: 4, image: '/nile.jpeg', title: 'Nile' },
+    { id: 5, image: '/nabqBay.jpeg', title: 'Nabq Bay' },
+    { id: 6, image: '/others.jpeg', title: 'Others' },
   ];
 
   const settings = {
@@ -60,7 +86,7 @@ const DiscoverSection = () => {
     slidesToScroll: 1,
     nextArrow: <CustomArrow direction="right" />,
     prevArrow: <CustomArrow direction="left" />,
-    centerPadding: '60px',
+    centerPadding: '20px',
     responsive: [
       {
         breakpoint: 1024,
@@ -97,7 +123,7 @@ const DiscoverSection = () => {
 
         <Box position="relative">
           <IconButton
-            icon={<ChevronLeftIcon />}
+            icon={<ChevronLeftIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
             left={{ base: 0, md: -5 }}
             top="50%"
@@ -111,7 +137,7 @@ const DiscoverSection = () => {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 3, md: 4 }}
+            gap={{ base: 1, md: 2 }}
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
             pr={{ base: 0, md: 0 }}
@@ -120,6 +146,7 @@ const DiscoverSection = () => {
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
               scrollSnapType: 'x mandatory',
+              scrollBehavior: 'smooth',
               '& > div': {
                 scrollSnapAlign: 'start',
               }
@@ -127,42 +154,50 @@ const DiscoverSection = () => {
           >
             {items.map((item) => (
               <Box 
-                key={item.id} 
+                key={item.id}
                 p={2}
-                flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
+                flex={{ base: "0 0 85%", md: "0 0 calc(100% / 4.2 - 8px)" }} // adjust for 4.2 cards
+                transition="all 0.3s ease"
               >
-                <VStack
-                  bg="gray.900"
+                <Box
+                  position="relative"
+                  h="400px"
                   borderRadius="lg"
                   overflow="hidden"
-                  h="350px"
-                  align="start"
-                  margin="1px"
                   className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(200,160,130,0.3)]"
                 >
                   <Image
                     src={item.image}
                     alt={item.title}
-                    fallback={<Box h="180px" bg="gray.800" />}
-                    objectFit="cover"
-                    h="180px"
-                    w="100%"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                  <Box p={6} flex="1">
-                    <Heading as="h3" size="md" mb={3} color="white">
+                  <Box
+                    position="absolute"
+                    bottom={6}
+                    left={6}
+                    right={6}
+                    px={4}
+                    py={2}
+                  >
+                    <Text 
+                      color="white" 
+                      fontSize={{ base: "lg", md: "xl" }}
+                      fontWeight="extrabold"
+                      textAlign="left"
+                      letterSpacing="wide"
+                      lineHeight="1.2"
+                      textShadow="0 4px 16px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7)"
+                    >
                       {item.title}
-                    </Heading>
-                    <Text fontSize="sm" color="gray.400">
-                      {item.description}
                     </Text>
                   </Box>
-                </VStack>
+                </Box>
               </Box>
             ))}
           </Flex>
 
           <IconButton
-            icon={<ChevronRightIcon />}
+            icon={<ChevronRightIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
             right={{ base: 0, md: -5 }}
             top="50%"

@@ -47,7 +47,7 @@ const hotels = [
     websiteName: 'Booking.com'
   },
   {
-    id: 1,
+    id: 3,
     name: 'Kempinski Hotel Soma Bay',
     location: 'Soma Bay',
     rating: 4.7,
@@ -58,7 +58,7 @@ const hotels = [
     websiteName: 'Booking.com'
   },
   {
-    id: 2,
+    id: 4,
     name: 'JW Marriott Hotel Cairo',
     location: 'Cairo',
     rating: 4.6,
@@ -202,6 +202,27 @@ export default function MostRelevantSection() {
                       position="relative"
                       pb={6}
                     >
+                      {/* Location Tag - Moved to overlay on image */}
+                      <Box 
+                        position="absolute"
+                        top={4}
+                        left={4}
+                        zIndex={1}
+                        bg="rgba(0,0,0,0.7)"
+                        px={4}
+                        py={2}
+                        borderRadius="full"
+                        border={`1px solid ${THEME_COLORS.bronzeNude}`}
+                      >
+                        <Text 
+                          color="white"
+                          fontSize="sm"
+                          fontWeight="medium"
+                        >
+                          {hotel.location}
+                        </Text>
+                      </Box>
+
                       <Box 
                         position="relative" 
                         h="300px"
@@ -223,19 +244,8 @@ export default function MostRelevantSection() {
                         borderBottomRadius="3xl"
                       >
                         <VStack align="stretch" spacing={4}>
-                          {/* Top Row - Location Tag and Price */}
-                          <HStack justify="space-between" align="center">
-                            <Text 
-                              fontSize="xs" 
-                              px={3} 
-                              py={1} 
-                              bg={`${THEME_COLORS.bronzeNude}10`}
-                              rounded="full"
-                              color={THEME_COLORS.bronzeNude}
-                              fontWeight="medium"
-                            >
-                              {hotel.location}
-                            </Text>
+                          {/* Price only */}
+                          <HStack justify="flex-end" align="center">
                             <HStack spacing={1} align="baseline">
                               <Text 
                                 fontSize="lg"

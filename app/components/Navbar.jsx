@@ -121,8 +121,16 @@ export default function Navbar() {
               justify="flex-end"
               display={{ base: "none", md: "flex" }}  // Hide on mobile
             >
-              <Flex align="center" gap={3}>  
-                <Image src="/globe.svg" alt="Language Icon" width={24} height={24} />
+              {/* Language Selector */}
+              <Flex align="center" gap={2}>  
+                <Image 
+                  src="/globe.svg" 
+                  alt="Language" 
+                  width={20} 
+                  height={20} 
+                  style={{ opacity: 0.8, filter: 'brightness(0) invert(1)' }}
+                />
+                <Text color="white" fontSize="sm">EN</Text>
               </Flex>
               
               {loggedIn && (
@@ -228,6 +236,9 @@ export default function Navbar() {
                       color="white"
                       onClick={label === 'Login' ? handleLogin : handleSignup}
                       size="md"
+                      px={6}
+                      py={5}
+                      borderRadius="xl"
                       _hover={{ transform: "translateY(-2px)", opacity: 0.9 }}
                       transition="all 0.3s ease"
                     >
@@ -275,7 +286,13 @@ export default function Navbar() {
           <VStack spacing={6} align="start" flex={1}>
             {/* Language Selector */}
             <Flex align="center" gap={2}>
-              <Image src="/globe.svg" alt="Language" width={24} height={24} />
+              <Image 
+                src="/globe.svg" 
+                alt="Language" 
+                width={24} 
+                height={24} 
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
               <Text color="white" fontSize="lg">EN</Text>
             </Flex>
 
@@ -304,6 +321,9 @@ export default function Navbar() {
                   bg={THEME_COLORS.bronzeNude}
                   color="white"
                   onClick={handleLogin}
+                  px={6}
+                  py={6}
+                  borderRadius="xl"
                 >
                   Login
                 </Button>
@@ -313,6 +333,9 @@ export default function Navbar() {
                   borderColor={THEME_COLORS.bronzeNude}
                   color="white"
                   onClick={handleSignup}
+                  px={6}
+                  py={6}
+                  borderRadius="xl"
                 >
                   Sign up
                 </Button>
