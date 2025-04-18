@@ -239,31 +239,18 @@ export default function MostRelevantSection() {
                         />
                       </Box>
                       <Box 
-                        p={5} 
+                        p={6} 
+                        pt={10}
                         bg="white"
                         borderBottomRadius="3xl"
                       >
-                        <VStack align="stretch" spacing={4}>
-                          {/* Price only */}
-                          <HStack justify="flex-end" align="center">
-                            <HStack spacing={1} align="baseline">
-                              <Text 
-                                fontSize="lg"
-                                color={THEME_COLORS.bronzeNude}
-                                fontWeight="bold"
-                              >
-                                ${hotel.price}
-                              </Text>
-                              <Text fontSize="xs" color="gray.500">/ night</Text>
-                            </HStack>
-                          </HStack>
-
+                        <VStack align="stretch" spacing={3}>
                           {/* Hotel Name */}
                           <Heading 
                             size="md" 
                             noOfLines={1} 
                             title={hotel.name}
-                            letterSpacing="tight"
+                            color="black"
                           >
                             {hotel.name}
                           </Heading>
@@ -277,23 +264,35 @@ export default function MostRelevantSection() {
                                 <Text>({hotel.reviews} reviews)</Text>
                               </HStack>
                             </VStack>
-                            <Text
-                              as="button"
-                              px={4}
-                              py={2}
-                              bg={THEME_COLORS.bronzeNude}
-                              color="white"
-                              fontSize="sm"
-                              fontWeight="medium"
-                              rounded="full"
-                              _hover={{
-                                opacity: 0.9,
-                                transform: "translateY(-1px)"
-                              }}
-                              transition="all 0.2s"
-                            >
-                              Book Now
-                            </Text>
+                            <HStack spacing={4} align="center">
+                              <HStack spacing={1} align="baseline">
+                                <Text 
+                                  fontSize="lg"
+                                  color={THEME_COLORS.bronzeNude}
+                                  fontWeight="bold"
+                                >
+                                  ${hotel.price}
+                                </Text>
+                                <Text fontSize="xs" color="gray.500">/ night</Text>
+                              </HStack>
+                              <Text
+                                as="button"
+                                px={4}
+                                py={2}
+                                bg={THEME_COLORS.bronzeNude}
+                                color="white"
+                                fontSize="sm"
+                                fontWeight="medium"
+                                rounded="full"
+                                _hover={{
+                                  opacity: 0.9,
+                                  transform: "translateY(-1px)"
+                                }}
+                                transition="all 0.2s"
+                              >
+                                Book Now
+                              </Text>
+                            </HStack>
                           </HStack>
                         </VStack>
                       </Box>
