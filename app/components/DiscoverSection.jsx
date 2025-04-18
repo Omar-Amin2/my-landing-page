@@ -133,7 +133,7 @@ const DiscoverSection = () => {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 2, md: 4 }}
+            gap={{ base: 2, md: 1 }}  // Reduced from md: 4 to md: 1
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
             pr={{ base: 4, md: 0 }}
@@ -150,14 +150,14 @@ const DiscoverSection = () => {
             {items.map((item) => (
               <Box 
                 key={item.id}
-                p={2}
-                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.5 - 8px)" }}  // Updated for 4.5 cards
+                p={1}  // Reduced from 2 to 1
+                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.5 - 2px)" }}  // Updated offset from 8px to 2px
                 transition="all 0.3s ease"
               >
                 <Box
                   position="relative"
                   h="400px"
-                  borderRadius="lg"
+                  borderRadius="3xl"  // Changed from "lg" to "3xl"
                   overflow="hidden"
                   cursor="pointer"
                   display="block"
