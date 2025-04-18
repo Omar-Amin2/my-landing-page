@@ -8,8 +8,8 @@ import { AuthProvider } from './context/AuthContext'
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body style={{ overflow: 'hidden auto', maxWidth: '100vw' }}>
+    <html lang="en" className="scroll-smooth">
+      <body className="overflow-x-hidden max-w-[100vw]">
         <ChakraProvider theme={theme}>
           <AuthProvider>
             <Box position="relative" minH="100vh" overflow="hidden">

@@ -78,7 +78,7 @@ export default function MostRelevantSection() {
   const [loading, setLoading] = useState(false)
 
   const toggleFavorite = (e, hotelId) => {
-    e.preventDefault() // Prevent link navigation
+    e.preventDefault() 
     setFavorites(prev => 
       prev.includes(hotelId) 
         ? prev.filter(id => id !== hotelId)
@@ -90,34 +90,38 @@ export default function MostRelevantSection() {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const cardWidth = container.offsetWidth / 2; // Show 2 cards
-    const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
-    const totalCards = hotels.length;
+    const visibleCards = 2.5; 
+    const cardWidth = container.offsetWidth / visibleCards;
+    const maxIndex = hotels.length - visibleCards;
     
-    let newIndex = direction === 'left' 
-      ? currentIndex - 1 
-      : currentIndex + 1;
-
-    if (newIndex < 0) {
-      newIndex = totalCards - 2;
-      container.scrollTo({ left: container.scrollWidth - (cardWidth * 2), behavior: 'smooth' });
-    } else if (newIndex >= totalCards - 1) {
-      newIndex = 0;
-      container.scrollTo({ left: 0, behavior: 'smooth' });
+    if (direction === 'right') {
+      if (currentIndex >= maxIndex) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+        setCurrentIndex(0);
+      } else {
+        container.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        setCurrentIndex(prev => Math.min(prev + 1, maxIndex));
+      }
     } else {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      if (currentIndex <= 0) {
+        const scrollToPosition = cardWidth * maxIndex;
+        container.scrollTo({ left: scrollToPosition, behavior: 'smooth' });
+        setCurrentIndex(maxIndex);
+      } else {
+        container.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        setCurrentIndex(prev => Math.max(prev - 1, 0));
+      }
     }
-    
-    setCurrentIndex(newIndex);
   };
 
   return (
     <Box py={{ base: 2, md: 4 }}>
-      <Container maxW="container.xl" px={spacing.section.px}>
+      <Container maxW="container.xl">
         <HStack 
           justify="space-between" 
           mb={{ base: 3, md: 4 }}
           spacing={spacing.element.gap}
+          px={{ base: 4, md: 6 }}
         >
           <Heading 
             size={{ base: "xl", lg: "2xl" }} 
@@ -146,11 +150,10 @@ export default function MostRelevantSection() {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={spacing.element.gap}
+            gap={{ base: 2, md: 1 }}
             overflowX="auto"
-            pl={{ base: 4, md: 0 }}
-            pr={{ base: 0, md: 0 }}
-            mr={{ base: "-20%", md: "-10%" }}
+            pl={{ base: 4, md: 4 }}
+            pr={{ base: 4, md: 0 }}  
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -163,8 +166,8 @@ export default function MostRelevantSection() {
             {hotels.map((hotel, index) => (
               <Box 
                 key={hotel.id} 
-                p={spacing.element.gap}
-                flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
+                p={2}
+                flex={{ base: "0 0 80%", md: "0 0 calc(40% - 4px)" }}  
               >
                 <Link 
                   href={hotel.bookingUrl}
@@ -197,7 +200,7 @@ export default function MostRelevantSection() {
                       overflow="hidden"
                       position="relative"
                       pb={6}
-                      transition="all 0.3s ease"
+                      transition="all 0.3s"
                       _hover={{
                         transform: "translateY(-8px)",
                         boxShadow: "xl",

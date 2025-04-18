@@ -41,7 +41,7 @@ const DiscoverSection = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const visibleCards = 4.2;
+    const visibleCards = 4.5;  // Changed from 4.2 to 4.5 to show part of 5th card
     const cardWidth = container.offsetWidth / visibleCards;
     const totalCards = items.length;
     
@@ -50,7 +50,7 @@ const DiscoverSection = () => {
       : currentIndex + 1;
 
     if (newIndex < 0) {
-      newIndex = totalCards - visibleCards;
+      newIndex = totalCards - 1;
       container.scrollTo({ left: container.scrollWidth - (cardWidth * visibleCards), behavior: 'smooth' });
     } else if (newIndex >= totalCards - (visibleCards - 1)) {
       newIndex = 0;
@@ -104,7 +104,7 @@ const DiscoverSection = () => {
 
   return (
     <Box py={{ base: 2, md: 4 }}>
-      <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
+      <Container maxW="container.xl">
         <Heading 
           size={{ base: "xl", lg: "2xl" }} 
           color="white"
@@ -133,11 +133,10 @@ const DiscoverSection = () => {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 2, md: 2 }}
+            gap={{ base: 2, md: 4 }}
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
             pr={{ base: 4, md: 0 }}
-            mr={{ base: 0, md: "-10%" }}
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -152,7 +151,7 @@ const DiscoverSection = () => {
               <Box 
                 key={item.id}
                 p={2}
-                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.2 - 8px)" }}
+                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.5 - 8px)" }}  // Updated for 4.5 cards
                 transition="all 0.3s ease"
               >
                 <Box
@@ -162,7 +161,7 @@ const DiscoverSection = () => {
                   overflow="hidden"
                   cursor="pointer"
                   display="block"
-                  transition="all 0.3s ease"
+                  transition="transform 0.3s ease"
                   _hover={{
                     transform: "translateY(-8px)",
                     boxShadow: "xl",

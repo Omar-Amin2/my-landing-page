@@ -54,15 +54,16 @@ export default function Trending() {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const cardWidth = container.offsetWidth / 2; // 2 cards visible
+    const visibleCards = 2.3;  // Changed from 2 to 2.3 to show part of 3rd card
+    const cardWidth = container.offsetWidth / visibleCards;
     const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
     
-    if (direction === 'right' && currentIndex >= destinations.length - 2) {
+    if (direction === 'right' && currentIndex >= destinations.length - visibleCards) {
       container.scrollTo({ left: 0, behavior: 'smooth' });
       setCurrentIndex(0);
     } else if (direction === 'left' && currentIndex === 0) {
-      container.scrollTo({ left: container.scrollWidth - cardWidth * 2, behavior: 'smooth' });
-      setCurrentIndex(destinations.length - 2);
+      container.scrollTo({ left: container.scrollWidth - (cardWidth * visibleCards), behavior: 'smooth' });
+      setCurrentIndex(destinations.length - visibleCards);
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       setCurrentIndex(prev => direction === 'left' ? prev - 1 : prev + 1);
@@ -71,7 +72,7 @@ export default function Trending() {
 
   return (
     <Box py={{ base: 2, md: 4 }}>
-      <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
+      <Container maxW="container.xl">
         <HStack 
           justify="space-between" 
           mb={{ base: 3, md: 4 }}
@@ -108,8 +109,7 @@ export default function Trending() {
             gap={{ base: 2, md: 4 }}
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
-            pr={{ base: 4, md: 0 }}  // Added padding right for mobile
-            mr={{ base: 0, md: "-10%" }}  // Removed negative margin on mobile
+            pr={{ base: 4, md: 0 }}
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -123,7 +123,7 @@ export default function Trending() {
               <Box 
                 key={destination.id} 
                 p={2}
-                flex={{ base: "0 0 80%", md: "0 0 calc(40% - 12px)" }}  // Adjusted mobile width
+                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 2.3 - 8px)" }}  // Updated for 2.3 cards
               >
                 <Box
                   position="relative"

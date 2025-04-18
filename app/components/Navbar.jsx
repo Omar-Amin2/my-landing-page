@@ -182,49 +182,49 @@ export default function Navbar() {
                       border="none"
                     >
                       <MenuItem
-                        className="hover:bg-gray-50"
                         fontSize="md"
                         py={3}
                         px={6}
                         color={THEME_COLORS.bronzeNude}
+                        _hover={{ bg: 'gray.50' }}
                       >
                         My profile
                       </MenuItem>
                       <MenuItem
-                        className="hover:bg-gray-50"
                         fontSize="md"
                         py={3}
                         px={6}
                         color={"black"}
+                        _hover={{ bg: 'gray.50' }}
                       >
                         Saved bundles
                       </MenuItem>
                       <MenuItem
-                        className="hover:bg-gray-50"
                         fontSize="md"
                         py={3}
                         px={6}
                         color={"black"}
+                        _hover={{ bg: 'gray.50' }}
                       >
                         Invite friends
                       </MenuItem>
                       <MenuItem
-                        className="hover:bg-gray-50"
                         fontSize="md"
                         py={3}
                         px={6}
                         color={"black"}
+                        _hover={{ bg: 'gray.50' }}
                       >
                         Settings
                       </MenuItem>
                       <MenuDivider />
                       <MenuItem
-                        className="hover:bg-gray-50"
                         color="red.500"
                         fontSize="md"
                         py={3}
                         px={6}
                         onClick={handleLogout}
+                        _hover={{ bg: 'gray.50' }}
                       >
                         Log out
                       </MenuItem>
