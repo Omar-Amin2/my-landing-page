@@ -141,6 +141,7 @@ export default function MostRelevantSection() {
               opacity: 0.8,
             }}
             onClick={() => scroll('left')}
+            display={{ base: "none", md: "flex" }}  // Hide on mobile
           />
 
           <Flex 
@@ -329,6 +330,7 @@ export default function MostRelevantSection() {
               opacity: 0.8,
             }}
             onClick={() => scroll('right')}
+            display={{ base: "none", md: "flex" }}  // Hide on mobile
           />
         </Box>
       </Container>

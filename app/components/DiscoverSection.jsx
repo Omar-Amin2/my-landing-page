@@ -124,6 +124,7 @@ const DiscoverSection = () => {
             zIndex={2}
             rounded="full"
             color="white"
+            display={{ base: "none", md: "flex" }}  // Hide on mobile
             _hover={{
               opacity: 0.8,
             }}
@@ -132,11 +133,11 @@ const DiscoverSection = () => {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 1, md: 2 }}
+            gap={{ base: 2, md: 2 }}
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
-            pr={{ base: 0, md: 0 }}
-            mr={{ base: "-20%", md: "-10%" }}
+            pr={{ base: 4, md: 0 }}
+            mr={{ base: 0, md: "-10%" }}
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -151,7 +152,7 @@ const DiscoverSection = () => {
               <Box 
                 key={item.id}
                 p={2}
-                flex={{ base: "0 0 85%", md: "0 0 calc(100% / 4.2 - 8px)" }}
+                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.2 - 8px)" }}
                 transition="all 0.3s ease"
               >
                 <Box
@@ -218,6 +219,7 @@ const DiscoverSection = () => {
             zIndex={2}
             rounded="full"
             color="white"
+            display={{ base: "none", md: "flex" }}  // Hide on mobile
             _hover={{
               opacity: 0.8,
             }}

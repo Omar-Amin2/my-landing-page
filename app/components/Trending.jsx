@@ -100,15 +100,16 @@ export default function Trending() {
               opacity: 0.8,
             }}
             onClick={() => handleScroll('left')}
+            display={{ base: "none", md: "flex" }}  // Hide on mobile
           />
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 3, md: 4 }}
+            gap={{ base: 2, md: 4 }}
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
-            pr={{ base: 0, md: 0 }}
-            mr={{ base: "-20%", md: "-10%" }}
+            pr={{ base: 4, md: 0 }}  // Added padding right for mobile
+            mr={{ base: 0, md: "-10%" }}  // Removed negative margin on mobile
             sx={{
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -122,7 +123,7 @@ export default function Trending() {
               <Box 
                 key={destination.id} 
                 p={2}
-                flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
+                flex={{ base: "0 0 80%", md: "0 0 calc(40% - 12px)" }}  // Adjusted mobile width
               >
                 <Box
                   position="relative"
@@ -223,6 +224,7 @@ export default function Trending() {
               opacity: 0.8,
             }}
             onClick={() => handleScroll('right')}
+            display={{ base: "none", md: "flex" }}  // Hide on mobile
           />
         </Box>
       </Container>
