@@ -29,7 +29,7 @@ export default function Footer() {
     <Box 
       bg={THEME_COLORS.background} 
       color="white" 
-      py={{ base: 6, md: 8 }}  // Reduced from { base: 12, md: 8 }
+      py={{ base: 6, md: 8 }}  
       position="relative"
     >
       <Container maxW="container.xl" position="relative" px={{ base: 6, md: 4 }}>

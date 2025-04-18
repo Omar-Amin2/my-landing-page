@@ -54,7 +54,7 @@ export default function Trending() {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const visibleCards = 2.3;  // Changed from 2 to 2.3 to show part of 3rd card
+    const visibleCards = 2.3;  
     const cardWidth = container.offsetWidth / visibleCards;
     const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
     
@@ -123,7 +123,7 @@ export default function Trending() {
               <Box 
                 key={destination.id} 
                 p={2}
-                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 2.3 - 8px)" }}  // Updated for 2.3 cards
+                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 2.3 - 8px)" }} 
               >
                 <Box
                   position="relative"

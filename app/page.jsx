@@ -22,7 +22,7 @@ export default function Home() {
       pb={4} 
       position="relative"
       maxW="100vw"
-      overflow="hidden"  // Prevent horizontal scroll
+      overflow="hidden" 
     >
       <Navbar />
       <HeroSection />

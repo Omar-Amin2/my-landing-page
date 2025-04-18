@@ -41,7 +41,7 @@ const DiscoverSection = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const visibleCards = 4.5;  // Changed from 4.2 to 4.5 to show part of 5th card
+    const visibleCards = 4.5;  
     const cardWidth = container.offsetWidth / visibleCards;
     const totalCards = items.length;
     
@@ -133,7 +133,7 @@ const DiscoverSection = () => {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 2, md: 1 }}  // Reduced from md: 4 to md: 1
+            gap={{ base: 2, md: 1 }}  
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
             pr={{ base: 4, md: 0 }}
@@ -150,14 +150,14 @@ const DiscoverSection = () => {
             {items.map((item) => (
               <Box 
                 key={item.id}
-                p={1}  // Reduced from 2 to 1
-                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.5 - 2px)" }}  // Updated offset from 8px to 2px
+                p={1}  
+                flex={{ base: "0 0 80%", md: "0 0 calc(100% / 4.5 - 2px)" }}  
                 transition="all 0.3s ease"
               >
                 <Box
                   position="relative"
                   h="400px"
-                  borderRadius="3xl"  // Changed from "lg" to "3xl"
+                  borderRadius="3xl"  
                   overflow="hidden"
                   cursor="pointer"
                   display="block"
