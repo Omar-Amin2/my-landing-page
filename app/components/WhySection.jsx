@@ -1,7 +1,7 @@
 'use client'
 import { Box, Container, Heading, SimpleGrid, Text, Icon, VStack } from '@chakra-ui/react';
 import { FaMousePointer, FaVrCardboard, FaPiggyBank } from 'react-icons/fa';
-import { THEME_COLORS } from '@/constants';
+import { THEME_COLORS } from '../constants';
 
 const features = [
   {
@@ -26,10 +26,10 @@ const features = [
 
 export default function WhySection() {
   return (
-    <Box py={10} bg={THEME_COLORS.background}>
-      <Container maxW="container.xl">
+    <Box py={8} bg={THEME_COLORS.background}>
+      <Container maxW="container.xl" px={{ base: 4, md: 6 }}>
         <Heading 
-          mb={16} 
+          mb={6} 
           textAlign= "left"
           size="2xl"
           color="white"
@@ -37,7 +37,10 @@ export default function WhySection() {
           Why choose <Text as="span" color={THEME_COLORS.bronzeNude}>Egy</Text>Book?
         </Heading>
 
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+        <SimpleGrid 
+          columns={{ base: 1, md: 3 }} 
+          spacing={6}
+        >
           {features.map((feature, index) => (
             <VStack 
               key={index} 

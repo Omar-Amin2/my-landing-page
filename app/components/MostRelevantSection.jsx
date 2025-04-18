@@ -3,7 +3,7 @@ import { Box, Container, Heading, Text, Icon, Link, IconButton, HStack, VStack, 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { FaHeart, FaRegHeart, FaStar, FaStarHalf, FaRegStar } from 'react-icons/fa'
-import { THEME_COLORS } from '@/constants'
+import { THEME_COLORS, spacing } from '../constants'
 import { useState, useRef } from 'react'
 
 const RatingStars = ({ rating }) => {
@@ -116,12 +116,12 @@ export default function MostRelevantSection() {
   };
 
   return (
-    <Box py={{ base: 8, md: 16 }}>
-      <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
+    <Box py={spacing.section.py}>
+      <Container maxW="container.xl" px={spacing.section.px}>
         <HStack 
           justify="space-between" 
-          mb={{ base: 6, md: 10 }}
-          px={{ base: 4, md: 0 }}
+          mb={spacing.component.gap}
+          spacing={spacing.element.gap}
         >
           <Heading 
             size={{ base: "xl", lg: "2xl" }} 
@@ -149,7 +149,7 @@ export default function MostRelevantSection() {
 
           <Flex 
             ref={scrollContainerRef}
-            gap={{ base: 3, md: 4 }}
+            gap={spacing.element.gap}
             overflowX="auto"
             pl={{ base: 4, md: 0 }}
             pr={{ base: 0, md: 0 }}
@@ -166,7 +166,7 @@ export default function MostRelevantSection() {
             {hotels.map((hotel, index) => (
               <Box 
                 key={hotel.id} 
-                p={2}
+                p={spacing.element.gap}
                 flex={{ base: "0 0 85%", md: "0 0 calc(40% - 12px)" }}
               >
                 <Link 

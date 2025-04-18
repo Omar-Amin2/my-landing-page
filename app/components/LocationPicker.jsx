@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import { Box, VStack, Input, Icon, Text, Flex, HStack, Button } from '@chakra-ui/react'
 import { FaMapMarkerAlt, FaSearch, FaCalendarAlt, FaUsers } from 'react-icons/fa'
-import { THEME_COLORS } from '@/constants'
+import { THEME_COLORS } from '../constants'
 
 const locations = [
   { id: 1, name: 'Cairo', region: 'City in Egypt' },

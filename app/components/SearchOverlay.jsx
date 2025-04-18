@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Box, Container, Input, VStack, Text, Icon, Flex, IconButton } from '@chakra-ui/react'
 import { FaSearch, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
-import { THEME_COLORS } from '@/constants'
+import { THEME_COLORS } from '../constants'
 
 const popularLocations = [
   { id: 1, name: 'Cairo', region: 'City in Egypt' },

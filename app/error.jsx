@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Container, Heading, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Text } from '@chakra-ui/react';
 
 export default function Error({ error, reset }) {
   return (

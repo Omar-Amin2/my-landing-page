@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { Box, VStack, Text, IconButton, HStack, Button, Divider } from '@chakra-ui/react'
 import { FaMinus, FaPlus, FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa'
-import { THEME_COLORS } from '@/constants'
+import { THEME_COLORS } from '../constants'
 
 export default function GuestPicker({ isOpen, onClose, onSelect, selectedLocation, selectedDates }) {
   const [guests, setGuests] = useState({

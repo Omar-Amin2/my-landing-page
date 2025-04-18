@@ -1,6 +1,6 @@
 'use client'
 import { Box, Container, Heading, Text, Button, Grid, GridItem, Image } from '@chakra-ui/react';
-import { THEME_COLORS } from '@/constants';
+import { THEME_COLORS } from '../constants';
 
 export default function CTA() {
   return (

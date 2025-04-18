@@ -2,7 +2,7 @@
 import { Box, Container, Flex, Text, HStack, VStack, Link, Icon } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FaInstagram, FaFacebook, FaTiktok, FaXTwitter, FaLinkedin } from 'react-icons/fa6';
-import { SOCIAL_LINKS, FOOTER_LINKS, THEME_COLORS } from '@/constants';
+import { SOCIAL_LINKS, FOOTER_LINKS, THEME_COLORS } from '../constants';
 
 const iconMap = {
   FaInstagram,

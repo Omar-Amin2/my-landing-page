@@ -2,7 +2,7 @@
 import { useRef, useState } from 'react'
 import { Box, Container, Heading, Text, IconButton, Flex, HStack } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { THEME_COLORS } from '@/constants'
+import { THEME_COLORS } from '../constants'
 
 const destinations = [
   {

@@ -23,7 +23,7 @@ import {
   MenuDivider,
   VStack,
 } from "@chakra-ui/react";
-import { NAV_LINKS, AUTH_BUTTONS, THEME_COLORS } from "@/constants";
+import { NAV_LINKS, AUTH_BUTTONS, THEME_COLORS } from '../constants';
 import { useAuth } from '../context/AuthContext';
 import SearchOverlay from './SearchOverlay';
 

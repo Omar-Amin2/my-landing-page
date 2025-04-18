@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useAuth } from '../context/AuthContext';
-import { THEME_COLORS } from '@/constants';
+import { THEME_COLORS } from '../constants';
 
 const CustomArrow = ({ direction, onClick }) => (
   <IconButton

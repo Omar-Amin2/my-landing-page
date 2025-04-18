@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Box, Container, Heading, Text, Button, Stack, HStack, Input, Icon } from '@chakra-ui/react';
 import { FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaLocationArrow } from 'react-icons/fa';
-import { THEME_COLORS } from '@/constants';
+import { THEME_COLORS } from '../constants';
 import { useAuth } from '../context/AuthContext';
 import LocationPicker from './LocationPicker';
 import DatePicker from './DatePicker';
