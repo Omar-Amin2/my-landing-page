@@ -68,7 +68,14 @@ export default function Navbar() {
 
   return (
     <>
-      <Box as="nav" bg={THEME_COLORS.background} color="white">
+      <Box 
+        as="nav" 
+        bg={THEME_COLORS.background} 
+        color="white"
+        position="relative"
+        zIndex={2}
+        mb={4}  // Add margin bottom
+      >
         <Container maxW="container.xl">
           <Flex align="center" py={{ base: 1, md: 2 }}>
             <Box flexBasis={{ base: "120px", md: "200px" }}>

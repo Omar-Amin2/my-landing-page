@@ -26,12 +26,12 @@ const features = [
 
 export default function WhySection() {
   return (
-    <Box py={8} bg={THEME_COLORS.background}>
+    <Box py={{ base: 2, md: 4 }} bg={THEME_COLORS.background}>
       <Container maxW="container.xl" px={{ base: 4, md: 6 }}>
         <Heading 
-          mb={6} 
-          textAlign= "left"
-          size="2xl"
+          mb={{ base: 3, md: 4 }}
+          textAlign="left"
+          size={{ base: "xl", lg: "2xl" }}
           color="white"
         >
           Why choose <Text as="span" color={THEME_COLORS.bronzeNude}>Egy</Text>Book?

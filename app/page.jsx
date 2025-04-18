@@ -9,6 +9,7 @@ import CTA from "./components/CTA.jsx";
 import MostRelevantSection from "./components/MostRelevantSection.jsx";
 import Trending from "./components/Trending.jsx";
 import { Box } from '@chakra-ui/react';
+import { THEME_COLORS } from './constants';
 
 export default function Home() {
   return (
@@ -17,8 +18,11 @@ export default function Home() {
       minH="100vh" 
       display="flex" 
       flexDirection="column" 
-      gap={8}
-      pb={8}
+      gap={4} 
+      pb={4} 
+      position="relative"
+      maxW="100vw"
+      overflow="hidden"  // Prevent horizontal scroll
     >
       <Navbar />
       <HeroSection />

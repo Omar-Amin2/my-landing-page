@@ -92,20 +92,16 @@ export default function MostRelevantSection() {
 
     const cardWidth = container.offsetWidth / 2; // Show 2 cards
     const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+    const totalCards = hotels.length;
     
-    // Calculate new index
     let newIndex = direction === 'left' 
       ? currentIndex - 1 
       : currentIndex + 1;
 
-    // Handle circular scrolling
     if (newIndex < 0) {
-      newIndex = hotels.length - 2;
-      container.scrollTo({ left: container.scrollWidth - cardWidth * 2, behavior: 'instant' });
-      setTimeout(() => {
-        container.scrollTo({ left: container.scrollWidth - cardWidth * 3, behavior: 'smooth' });
-      }, 0);
-    } else if (newIndex >= hotels.length - 1) {
+      newIndex = totalCards - 2;
+      container.scrollTo({ left: container.scrollWidth - (cardWidth * 2), behavior: 'smooth' });
+    } else if (newIndex >= totalCards - 1) {
       newIndex = 0;
       container.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
@@ -116,11 +112,11 @@ export default function MostRelevantSection() {
   };
 
   return (
-    <Box py={spacing.section.py}>
+    <Box py={{ base: 2, md: 4 }}>
       <Container maxW="container.xl" px={spacing.section.px}>
         <HStack 
           justify="space-between" 
-          mb={spacing.component.gap}
+          mb={{ base: 3, md: 4 }}
           spacing={spacing.element.gap}
         >
           <Heading 
@@ -133,18 +129,18 @@ export default function MostRelevantSection() {
 
         <Box position="relative">
           <IconButton
-            icon={<ChevronLeftIcon />}
+            icon={<ChevronLeftIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
-            left={{ base: 2, md: -5 }}
+            left={{ base: 2, md: "-40px" }}
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
             rounded="full"
             bg="white"
-            size={{ base: "sm", md: "md" }}
+            _hover={{
+              opacity: 0.8,
+            }}
             onClick={() => scroll('left')}
-            _hover={{ bg: 'white', transform: 'translateY(-50%) scale(1.1)' }}
-            transition="all 0.2s"
           />
 
           <Flex 
@@ -198,10 +194,27 @@ export default function MostRelevantSection() {
                     <Box
                       borderRadius="3xl"
                       overflow="hidden"
-                      className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(200,160,130,0.3)]"
                       position="relative"
                       pb={6}
+                      transition="all 0.3s ease"
+                      _hover={{
+                        transform: "translateY(-8px)",
+                        boxShadow: "xl",
+                        '& > .overlay': {
+                          opacity: 1
+                        }
+                      }}
                     >
+                      {/* Add overlay */}
+                      <Box
+                        className="overlay"
+                        position="absolute"
+                        inset={0}
+                        bg="blackAlpha.400"
+                        transition="opacity 0.3s ease"
+                        opacity={0}
+                        zIndex={1}
+                      />
                       {/* Location Tag - Moved to overlay on image */}
                       <Box 
                         position="absolute"
@@ -304,18 +317,18 @@ export default function MostRelevantSection() {
           </Flex>
 
           <IconButton
-            icon={<ChevronRightIcon />}
+            icon={<ChevronRightIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
-            right={{ base: 2, md: -5 }}
+            right={{ base: 2, md: "-40px" }}
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
             rounded="full"
             bg="white"
-            size={{ base: "sm", md: "md" }}
+            _hover={{
+              opacity: 0.8,
+            }}
             onClick={() => scroll('right')}
-            _hover={{ bg: 'white', transform: 'translateY(-50%) scale(1.1)' }}
-            transition="all 0.2s"
           />
         </Box>
       </Container>

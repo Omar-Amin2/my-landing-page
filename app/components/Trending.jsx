@@ -70,15 +70,15 @@ export default function Trending() {
   };
 
   return (
-    <Box py={{ base: 8, md: 16 }}>
+    <Box py={{ base: 2, md: 4 }}>
       <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
         <HStack 
           justify="space-between" 
-          mb={{ base: 6, md: 10 }}
+          mb={{ base: 3, md: 4 }}
           px={{ base: 4, md: 0 }}
         >
           <Heading 
-            size="2xl" 
+            size={{ base: "xl", lg: "2xl" }} 
             color="white"
           >
             Trending Destinations
@@ -129,7 +129,16 @@ export default function Trending() {
                   h="400px"
                   borderRadius="2xl"
                   overflow="hidden"
-                  className="transform transition-all duration-300 hover:-translate-y-2"
+                  cursor="pointer"
+                  display="block"
+                  transition="all 0.3s ease"
+                  _hover={{
+                    transform: "translateY(-8px)",
+                    boxShadow: "xl",
+                    '& > .overlay': {
+                      opacity: 1
+                    }
+                  }}
                 >
                   <Box
                     as="img"
@@ -138,6 +147,14 @@ export default function Trending() {
                     w="full"
                     h="full"
                     objectFit="cover"
+                  />
+                  <Box
+                    className="overlay"
+                    position="absolute"
+                    inset={0}
+                    bg="blackAlpha.400"
+                    transition="opacity 0.3s ease"
+                    opacity={0}
                   />
                   <Box
                     position="absolute"

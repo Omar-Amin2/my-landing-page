@@ -44,28 +44,21 @@ const DiscoverSection = () => {
     const visibleCards = 4.2;
     const cardWidth = container.offsetWidth / visibleCards;
     const totalCards = items.length;
+    
+    let newIndex = direction === 'left' 
+      ? currentIndex - 1 
+      : currentIndex + 1;
 
-    let newIndex = currentIndex;
-
-    if (direction === 'left') {
-      newIndex = currentIndex - 1;
-      if (newIndex < 0) {
-        newIndex = totalCards - 1; // Go to last card
-      }
+    if (newIndex < 0) {
+      newIndex = totalCards - visibleCards;
+      container.scrollTo({ left: container.scrollWidth - (cardWidth * visibleCards), behavior: 'smooth' });
+    } else if (newIndex >= totalCards - (visibleCards - 1)) {
+      newIndex = 0;
+      container.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
-      newIndex = currentIndex + 1;
-      if (newIndex >= totalCards) {
-        newIndex = 0; // Go to first card
-      }
+      container.scrollBy({ left: direction === 'left' ? -cardWidth : cardWidth, behavior: 'smooth' });
     }
-
-    const targetScroll = newIndex * cardWidth;
-
-    container.scrollTo({
-      left: targetScroll,
-      behavior: 'smooth'
-    });
-
+    
     setCurrentIndex(newIndex);
   };
 
@@ -110,12 +103,12 @@ const DiscoverSection = () => {
   };
 
   return (
-    <Box py={{ base: 8, md: 16 }}>
+    <Box py={{ base: 2, md: 4 }}>
       <Container maxW="container.xl" px={{ base: 0, md: 6 }}>
         <Heading 
           size={{ base: "xl", lg: "2xl" }} 
           color="white"
-          mb={{ base: 6, md: 10 }}
+          mb={{ base: 3, md: 4 }}
           px={{ base: 4, md: 0 }}
         >
           Discover New Places
@@ -125,13 +118,15 @@ const DiscoverSection = () => {
           <IconButton
             icon={<ChevronLeftIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
-            left={{ base: 0, md: -5 }}
+            left={{ base: 2, md: "-40px" }}
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
             rounded="full"
-            bg="white"
-            size={{ base: "sm", md: "md" }}
+            color="white"
+            _hover={{
+              opacity: 0.8,
+            }}
             onClick={() => scroll('left')}
           />
 
@@ -156,7 +151,7 @@ const DiscoverSection = () => {
               <Box 
                 key={item.id}
                 p={2}
-                flex={{ base: "0 0 85%", md: "0 0 calc(100% / 4.2 - 8px)" }} // adjust for 4.2 cards
+                flex={{ base: "0 0 85%", md: "0 0 calc(100% / 4.2 - 8px)" }}
                 transition="all 0.3s ease"
               >
                 <Box
@@ -164,12 +159,29 @@ const DiscoverSection = () => {
                   h="400px"
                   borderRadius="lg"
                   overflow="hidden"
-                  className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(200,160,130,0.3)]"
+                  cursor="pointer"
+                  display="block"
+                  transition="all 0.3s ease"
+                  _hover={{
+                    transform: "translateY(-8px)",
+                    boxShadow: "xl",
+                    '& > .overlay': {
+                      opacity: 1
+                    }
+                  }}
                 >
                   <Image
                     src={item.image}
                     alt={item.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <Box
+                    className="overlay"
+                    position="absolute"
+                    inset={0}
+                    bg="blackAlpha.400"
+                    transition="opacity 0.3s ease"
+                    opacity={0}
                   />
                   <Box
                     position="absolute"
@@ -178,6 +190,7 @@ const DiscoverSection = () => {
                     right={6}
                     px={4}
                     py={2}
+                    zIndex={1}
                   >
                     <Text 
                       color="white" 
@@ -199,13 +212,15 @@ const DiscoverSection = () => {
           <IconButton
             icon={<ChevronRightIcon color={THEME_COLORS.bronzeNude} boxSize={8} />}
             position="absolute"
-            right={{ base: 0, md: -5 }}
+            right={{ base: 2, md: "-40px" }}
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
             rounded="full"
-            bg="white"
-            size={{ base: "sm", md: "md" }}
+            color="white"
+            _hover={{
+              opacity: 0.8,
+            }}
             onClick={() => scroll('right')}
           />
         </Box>

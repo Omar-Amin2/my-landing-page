@@ -25,6 +25,7 @@ export default function HeroSection() {
       maxHeight={{ base: "800px", md: "800px" }}
       width="100%" 
       overflow="hidden"
+      mb={{ base: 2, md: 4 }}  // Add bottom margin
       mt={{ base: "-1", md: "-8" }}  // Add negative margin to reduce gap
     >
       <Image

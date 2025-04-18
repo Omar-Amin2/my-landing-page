@@ -4,13 +4,13 @@ import { THEME_COLORS } from '../constants';
 
 export default function CTA() {
   return (
-    <Box bg={THEME_COLORS.background} py={10}>
+    <Box bg={THEME_COLORS.background} py={{ base: 2, md: 4 }}>
       <Container maxW="container.xl">
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={0} alignItems="stretch">
-          <GridItem height="400px">
+          <GridItem height={{ base: "350px", md: "400px" }}>
             <Box
               bg="rgb(128, 173, 145)"
-              p={12}
+              p={{ base: 8, md: 12 }}
               borderRadius="xl"
               borderRightRadius={0}
               height="100%"
@@ -49,7 +49,7 @@ export default function CTA() {
               </Button>
             </Box>
           </GridItem>
-          <GridItem height="400px">
+          <GridItem height={{ base: "350px", md: "400px" }}>
             <Box 
               borderRadius="xl" 
               borderLeftRadius={0}
